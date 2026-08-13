@@ -1,0 +1,2410 @@
+INFO:     Will watch for changes in these directories: ['/Users/yuxi/Downloads/personal-ai-assistant/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [93992] using WatchFiles
+INFO:     Started server process [93997]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T07:44:56.806185Z"}
+INFO:     Application startup complete.
+INFO:     127.0.0.1:64795 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51039 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53247 - "OPTIONS /api/v1/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53247 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u770b\u4e0b\u5f53\u524d\u4efb\u52a1\u6709\u54ea\u4e9b\u6ca1\u5b8c\u6210\u7684", "hits": 0, "conversation_messages": 10, "duration_ms": 7.6, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T08:27:05.654001Z"}
+langchain-openai detected system proxy configuration and no explicit `http_socket_options` / `http_client` / `http_async_client` / `openai_proxy`; skipping the custom `httpx` transport so httpx's env-proxy auto-detection applies. Pass `http_socket_options=[...]` to opt back into kernel-level TCP keepalive tuning on top of the env proxy.
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "search_memory", "user_id": "default-user", "arguments": {"query": "task \u4efb\u52a1 \u5f85\u529e todo \u672a\u5b8c\u6210", "limit": 20}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T08:27:09.238142Z"}
+{"source": "search_memory_tool", "user_id": "default-user", "query": "task \u4efb\u52a1 \u5f85\u529e todo \u672a\u5b8c\u6210", "hits": 0, "duration_ms": 3.89, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T08:27:09.242182Z"}
+{"tool": "search_memory", "user_id": "default-user", "duration_ms": 4.17, "result": "{\"memories\": [], \"message\": \"\u6ca1\u6709\u627e\u5230\u76f8\u5173\u8bb0\u5fc6\"}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T08:27:09.242260Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:53247 - "OPTIONS /api/v1/tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53271 - "OPTIONS /api/v1/tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53271 - "GET /api/v1/tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53247 - "GET /api/v1/tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53281 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u770b\u4e0b\u6709\u54ea\u4e9b\u4efb\u52a1\u6ca1\u5b8c\u6210\u7684", "hits": 0, "conversation_messages": 10, "duration_ms": 6.05, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T08:27:31.948870Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+WARNING:  WatchFiles detected changes in 'app/tools/task_tool.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T08:30:40.834490Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [93997]
+INFO:     Started server process [96655]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T08:30:42.424358Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/tools/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T08:30:51.012623Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [96655]
+INFO:     Started server process [96680]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T08:30:52.228544Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/tools/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T08:31:01.630237Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [96680]
+INFO:     Started server process [96700]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T08:31:02.837510Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/agents/graph.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T08:35:53.114409Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [96700]
+INFO:     Started server process [10540]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T08:35:54.572991Z"}
+INFO:     Application startup complete.
+INFO:     127.0.0.1:56891 - "OPTIONS /api/v1/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56891 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u770b\u4e0b\u8fd8\u6709\u54ea\u4e9b\u4efb\u52a1\u6ca1\u5b8c\u6210", "hits": 0, "conversation_messages": 10, "duration_ms": 6.83, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:18:06.993313Z"}
+langchain-openai detected system proxy configuration and no explicit `http_socket_options` / `http_client` / `http_async_client` / `openai_proxy`; skipping the custom `httpx` transport so httpx's env-proxy auto-detection applies. Pass `http_socket_options=[...]` to opt back into kernel-level TCP keepalive tuning on top of the env proxy.
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "list_tasks", "user_id": "default-user", "arguments": {"status": "pending"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:18:09.653090Z"}
+{"tool": "list_tasks", "user_id": "default-user", "duration_ms": 8.29, "result": "{\"count\": 2, \"tasks\": [{\"id\": 2, \"title\": \"agent\u5b66\u4e60\", \"description\": \"\u5b66\u4e60agent\u76f8\u5173\u5185\u5bb9\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T13:34:01.634916+00:00\"}, {\"id\": 1, \"title\": \"\u63d0\u4ea4\u9879\u76ee\u5468\u62a5\", \"description\": \"\u6574\u7406\u672c\u5468\u8fdb\u5c55\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T12:24:16.111624+00:00\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:18:09.661357Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:56937 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u770b\u4e0b\u6211\u7684\u65e5\u5386", "hits": 0, "conversation_messages": 10, "duration_ms": 3.56, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:18:57.308912Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "query_calendar", "user_id": "default-user", "arguments": {}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:19:00.356952Z"}
+{"tool": "query_calendar", "user_id": "default-user", "duration_ms": 6.25, "result": "{\"events\": [{\"id\": 1, \"title\": \"\u4ea7\u54c1\u8bc4\u5ba1\u4f1a\", \"description\": null, \"start_time\": \"2026-08-13T02:00:00+00:00\", \"end_time\": \"2026-08-13T03:00:00+00:00\", \"status\": \"scheduled\"}, {\"id\": 2, \"title\": \"\u5b66\u4e60 Agent\", \"description\": \"\u5b66\u4e60 Agent \u76f8\u5173\u77e5\u8bc6\", \"start_time\": \"2026-08-13T06:00:00+00:00\", \"end_time\": \"2026-08-13T08:00:00+00:00\", \"status\": \"scheduled\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:19:00.363207Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:57137 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u67e5\u8be2\u4e0b\u6211\u7684\u4efb\u52a1", "hits": 0, "conversation_messages": 10, "duration_ms": 3.17, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:21:07.092243Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "list_tasks", "user_id": "default-user", "arguments": {"status": "pending"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:21:09.774953Z"}
+{"tool": "list_tasks", "user_id": "default-user", "duration_ms": 2.2, "result": "{\"count\": 2, \"tasks\": [{\"id\": 2, \"title\": \"agent\u5b66\u4e60\", \"description\": \"\u5b66\u4e60agent\u76f8\u5173\u5185\u5bb9\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T13:34:01.634916+00:00\"}, {\"id\": 1, \"title\": \"\u63d0\u4ea4\u9879\u76ee\u5468\u62a5\", \"description\": \"\u6574\u7406\u672c\u5468\u8fdb\u5c55\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T12:24:16.111624+00:00\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:21:09.777148Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:57287 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u67e5\u8be2\u4e0b\u5f53\u524d\u4efb\u52a1", "hits": 0, "conversation_messages": 10, "duration_ms": 3.46, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:23:05.855828Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "list_tasks", "user_id": "default-user", "arguments": {"status": "pending"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:23:09.980418Z"}
+{"tool": "list_tasks", "user_id": "default-user", "duration_ms": 2.01, "result": "{\"count\": 2, \"tasks\": [{\"id\": 2, \"title\": \"agent\u5b66\u4e60\", \"description\": \"\u5b66\u4e60agent\u76f8\u5173\u5185\u5bb9\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T13:34:01.634916+00:00\"}, {\"id\": 1, \"title\": \"\u63d0\u4ea4\u9879\u76ee\u5468\u62a5\", \"description\": \"\u6574\u7406\u672c\u5468\u8fdb\u5c55\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T12:24:16.111624+00:00\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:23:09.982425Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:57334 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u67e5\u8be2\u4e0b\u5f53\u524d\u4efb\u52a1\uff0c\u5e76\u67e5\u8be2\u4e0b\u6211\u7684\u559c\u597d", "hits": 0, "conversation_messages": 10, "duration_ms": 5.55, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:23:25.821719Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "list_tasks", "user_id": "default-user", "arguments": {"status": "pending"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:23:28.790771Z"}
+{"tool": "list_tasks", "user_id": "default-user", "duration_ms": 2.14, "result": "{\"count\": 2, \"tasks\": [{\"id\": 2, \"title\": \"agent\u5b66\u4e60\", \"description\": \"\u5b66\u4e60agent\u76f8\u5173\u5185\u5bb9\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T13:34:01.634916+00:00\"}, {\"id\": 1, \"title\": \"\u63d0\u4ea4\u9879\u76ee\u5468\u62a5\", \"description\": \"\u6574\u7406\u672c\u5468\u8fdb\u5c55\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T12:24:16.111624+00:00\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:23:28.792908Z"}
+{"tool": "search_memory", "user_id": "default-user", "arguments": {"query": "\u559c\u597d \u504f\u597d"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:23:28.793035Z"}
+{"source": "search_memory_tool", "user_id": "default-user", "query": "\u559c\u597d \u504f\u597d", "hits": 0, "duration_ms": 1.62, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:23:28.794711Z"}
+{"tool": "search_memory", "user_id": "default-user", "duration_ms": 1.77, "result": "{\"memories\": [], \"message\": \"\u6ca1\u6709\u627e\u5230\u76f8\u5173\u8bb0\u5fc6\"}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:23:28.794810Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:57391 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u6211\u559c\u6b22\u4ec0\u4e48\u7f16\u7a0b\u8bed\u8a00", "hits": 0, "conversation_messages": 10, "duration_ms": 2.71, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:24:08.185497Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "search_memory", "user_id": "default-user", "arguments": {"query": "\u7f16\u7a0b\u8bed\u8a00 \u559c\u6b22 \u504f\u597d"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:24:10.599912Z"}
+{"source": "search_memory_tool", "user_id": "default-user", "query": "\u7f16\u7a0b\u8bed\u8a00 \u559c\u6b22 \u504f\u597d", "hits": 1, "duration_ms": 4.4, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:24:10.604457Z"}
+{"tool": "search_memory", "user_id": "default-user", "duration_ms": 4.72, "result": "{\"memories\": [{\"id\": 2, \"type\": \"preference\", \"content\": \"\u7528\u6237\u559c\u6b22Python\u7f16\u7a0b\u8bed\u8a00\", \"importance\": 3, \"created_at\": \"2026-08-12T14:50:58.710509+00:00\", \"updated_at\": \"2026-08-12T14:50:58.710509+00:00\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:24:10.604623Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:57409 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u67e5\u8be2\u4e0b\u6211\u7684\u559c\u597d", "hits": 0, "conversation_messages": 10, "duration_ms": 2.92, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:24:23.861377Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "search_memory", "user_id": "default-user", "arguments": {"query": "\u559c\u597d \u559c\u6b22 \u504f\u597d", "limit": 10}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:24:26.830272Z"}
+{"source": "search_memory_tool", "user_id": "default-user", "query": "\u559c\u597d \u559c\u6b22 \u504f\u597d", "hits": 1, "duration_ms": 2.9, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:24:26.833339Z"}
+{"tool": "search_memory", "user_id": "default-user", "duration_ms": 3.32, "result": "{\"memories\": [{\"id\": 2, \"type\": \"preference\", \"content\": \"\u7528\u6237\u559c\u6b22Python\u7f16\u7a0b\u8bed\u8a00\", \"importance\": 3, \"created_at\": \"2026-08-12T14:50:58.710509+00:00\", \"updated_at\": \"2026-08-12T14:50:58.710509+00:00\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:24:26.833584Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:58926 - "OPTIONS /api/v1/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58926 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+{"source": "context_builder", "user_id": "default-user", "query": "\u67e5\u8be2\u4e0b\u5f53\u524d\u4efb\u52a1\uff0c\u5e76\u67e5\u8be2\u4e0b\u6211\u7684\u559c\u597d", "hits": 0, "conversation_messages": 10, "duration_ms": 3.01, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:42:40.708084Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "list_tasks", "user_id": "default-user", "arguments": {"status": "pending"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:42:43.510710Z"}
+{"tool": "list_tasks", "user_id": "default-user", "duration_ms": 2.3, "result": "{\"count\": 2, \"tasks\": [{\"id\": 2, \"title\": \"agent\u5b66\u4e60\", \"description\": \"\u5b66\u4e60agent\u76f8\u5173\u5185\u5bb9\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T13:34:01.634916+00:00\"}, {\"id\": 1, \"title\": \"\u63d0\u4ea4\u9879\u76ee\u5468\u62a5\", \"description\": \"\u6574\u7406\u672c\u5468\u8fdb\u5c55\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T12:24:16.111624+00:00\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:42:43.513008Z"}
+{"tool": "search_memory", "user_id": "default-user", "arguments": {"query": "\u559c\u597d \u504f\u597d \u559c\u6b22"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T09:42:43.513144Z"}
+{"source": "search_memory_tool", "user_id": "default-user", "query": "\u559c\u597d \u504f\u597d \u559c\u6b22", "hits": 1, "duration_ms": 1.88, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T09:42:43.515069Z"}
+{"tool": "search_memory", "user_id": "default-user", "duration_ms": 2.02, "result": "{\"memories\": [{\"id\": 2, \"type\": \"preference\", \"content\": \"\u7528\u6237\u559c\u6b22Python\u7f16\u7a0b\u8bed\u8a00\", \"importance\": 3, \"created_at\": \"2026-08-12T14:50:58.710509+00:00\", \"updated_at\": \"2026-08-12T14:50:58.710509+00:00\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T09:42:43.515162Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+WARNING:  WatchFiles detected changes in 'app/infrastructure/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:50:32.704950Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [10540]
+INFO:     Started server process [14439]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:50:34.765082Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/infrastructure/embedding.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:50:38.205216Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14439]
+INFO:     Started server process [14447]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:50:39.969934Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/infrastructure/embedding.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:50:42.090009Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14447]
+INFO:     Started server process [14459]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:50:43.381439Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/knowledge/embedding.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:50:46.309779Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14459]
+INFO:     Started server process [14479]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:50:47.825035Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/models/document.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:50:48.332868Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14479]
+INFO:     Started server process [14490]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:50:49.686857Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/models/memory.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:51:06.462606Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14490]
+INFO:     Started server process [14519]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:51:08.167313Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'alembic/versions/0007_memory_embedding.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:51:14.758865Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14519]
+WARNING:  WatchFiles detected changes in 'alembic/versions/0007_memory_embedding.py'. Reloading...
+INFO:     Started server process [14536]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:51:16.532470Z"}
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:51:16.634293Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14536]
+INFO:     Started server process [14545]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:51:17.786570Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/repositories/memory_repository.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:51:30.021454Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14545]
+INFO:     Started server process [14559]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:51:31.589272Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/repositories/memory_repository.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:51:37.628564Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14559]
+INFO:     Started server process [14587]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:51:40.090039Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/services/memory_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:51:45.881533Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14587]
+INFO:     Started server process [14606]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:51:47.578300Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/tools/memory_tool.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:52:12.871371Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14606]
+Process SpawnProcess-17:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 11, in <module>
+    from app.agents.graph import invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/__init__.py", line 1, in <module>
+    from app.agents.graph import build_agent, invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/graph.py", line 34, in <module>
+    from app.tools import gateway as tool_gateway
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/__init__.py", line 10, in <module>
+    from app.tools.memory_tool import SaveMemoryTool, SearchMemoryTool
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/memory_tool.py", line 110
+    "透露的偏好、习惯、目标、事实或背景信息时调用。例如用户问"我的喜好/我喜欢什么"
+                                            ^
+SyntaxError: unterminated string literal (detected at line 110)
+WARNING:  WatchFiles detected changes in 'scripts/backfill_memory_embeddings.py'. Reloading...
+Process SpawnProcess-18:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 11, in <module>
+    from app.agents.graph import invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/__init__.py", line 1, in <module>
+    from app.agents.graph import build_agent, invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/graph.py", line 34, in <module>
+    from app.tools import gateway as tool_gateway
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/__init__.py", line 10, in <module>
+    from app.tools.memory_tool import SaveMemoryTool, SearchMemoryTool
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/memory_tool.py", line 110
+    "透露的偏好、习惯、目标、事实或背景信息时调用。例如用户问"我的喜好/我喜欢什么"
+                                            ^
+SyntaxError: unterminated string literal (detected at line 110)
+WARNING:  WatchFiles detected changes in 'scripts/backfill_memory_embeddings.py'. Reloading...
+Process SpawnProcess-19:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 11, in <module>
+    from app.agents.graph import invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/__init__.py", line 1, in <module>
+    from app.agents.graph import build_agent, invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/graph.py", line 34, in <module>
+    from app.tools import gateway as tool_gateway
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/__init__.py", line 10, in <module>
+    from app.tools.memory_tool import SaveMemoryTool, SearchMemoryTool
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/memory_tool.py", line 110
+    "透露的偏好、习惯、目标、事实或背景信息时调用。例如用户问"我的喜好/我喜欢什么"
+                                            ^
+SyntaxError: unterminated string literal (detected at line 110)
+WARNING:  WatchFiles detected changes in 'tests/test_memory_service.py'. Reloading...
+Process SpawnProcess-20:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 11, in <module>
+    from app.agents.graph import invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/__init__.py", line 1, in <module>
+    from app.agents.graph import build_agent, invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/graph.py", line 34, in <module>
+    from app.tools import gateway as tool_gateway
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/__init__.py", line 10, in <module>
+    from app.tools.memory_tool import SaveMemoryTool, SearchMemoryTool
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/memory_tool.py", line 110
+    "透露的偏好、习惯、目标、事实或背景信息时调用。例如用户问"我的喜好/我喜欢什么"
+                                            ^
+SyntaxError: unterminated string literal (detected at line 110)
+WARNING:  WatchFiles detected changes in 'tests/test_memory_retrieval.py'. Reloading...
+Process SpawnProcess-21:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 11, in <module>
+    from app.agents.graph import invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/__init__.py", line 1, in <module>
+    from app.agents.graph import build_agent, invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/graph.py", line 34, in <module>
+    from app.tools import gateway as tool_gateway
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/__init__.py", line 10, in <module>
+    from app.tools.memory_tool import SaveMemoryTool, SearchMemoryTool
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/memory_tool.py", line 110
+    "透露的偏好、习惯、目标、事实或背景信息时调用。例如用户问"我的喜好/我喜欢什么"
+                                            ^
+SyntaxError: unterminated string literal (detected at line 110)
+WARNING:  WatchFiles detected changes in 'tests/test_memory_retrieval.py'. Reloading...
+Process SpawnProcess-22:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 11, in <module>
+    from app.agents.graph import invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/__init__.py", line 1, in <module>
+    from app.agents.graph import build_agent, invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/graph.py", line 34, in <module>
+    from app.tools import gateway as tool_gateway
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/__init__.py", line 10, in <module>
+    from app.tools.memory_tool import SaveMemoryTool, SearchMemoryTool
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/memory_tool.py", line 110
+    "透露的偏好、习惯、目标、事实或背景信息时调用。例如用户问"我的喜好/我喜欢什么"
+                                            ^
+SyntaxError: unterminated string literal (detected at line 110)
+WARNING:  WatchFiles detected changes in 'app/tools/memory_tool.py'. Reloading...
+Process SpawnProcess-23:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 11, in <module>
+    from app.agents.graph import invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/__init__.py", line 1, in <module>
+    from app.agents.graph import build_agent, invoke_agent
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/agents/graph.py", line 34, in <module>
+    from app.tools import gateway as tool_gateway
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/__init__.py", line 10, in <module>
+    from app.tools.memory_tool import SaveMemoryTool, SearchMemoryTool
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/tools/memory_tool.py", line 119
+    "description": "用自然语言描述你想回忆的内容，例如"我的编程偏好""我喜欢什么语言"",
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+WARNING:  WatchFiles detected changes in 'app/tools/memory_tool.py'. Reloading...
+INFO:     Started server process [14835]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:53:42.270176Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'tests/test_memory_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:54:30.481751Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14835]
+INFO:     Started server process [14962]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:54:32.139791Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'tests/test_memory_service.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:54:34.867171Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14962]
+INFO:     Started server process [14988]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:54:36.100205Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'alembic/versions/0002_approvals.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:55:36.953504Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14988]
+INFO:     Started server process [15174]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:55:39.506774Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'alembic/versions/0002_tasks.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:55:41.046023Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15174]
+INFO:     Started server process [15211]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:55:42.464248Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'alembic/versions/0007_memory_embedding.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:56:13.524896Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15211]
+INFO:     Started server process [15301]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:56:14.932368Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'tests/test_memory_retrieval.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:57:50.104224Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15301]
+INFO:     Started server process [15495]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:57:51.765205Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'tests/test_memory_retrieval.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:58:50.037944Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15495]
+INFO:     Started server process [15587]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:58:51.704384Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'tests/test_memory_retrieval.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:59:06.740319Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15587]
+INFO:     Started server process [15651]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:59:08.566668Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'tests/test_memory_retrieval.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T09:59:15.383715Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15651]
+INFO:     Started server process [15678]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T09:59:16.858833Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/context/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:00:14.906674Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15678]
+INFO:     Started server process [15807]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:00:16.786954Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/context/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:00:21.232117Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15807]
+INFO:     Started server process [15832]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:00:22.778925Z"}
+INFO:     Application startup complete.
+INFO:     127.0.0.1:61136 - "OPTIONS /api/v1/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61136 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/embeddings "HTTP/1.1 200 OK"
+{"source": "context_builder", "user_id": "default-user", "query": "\u67e5\u8be2\u4e0b\u5f53\u524d\u4efb\u52a1\uff0c\u5e76\u67e5\u8be2\u4e0b\u6211\u7684\u559c\u597d", "hits": 1, "conversation_messages": 10, "duration_ms": 571.58, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T10:05:32.253822Z"}
+langchain-openai detected system proxy configuration and no explicit `http_socket_options` / `http_client` / `http_async_client` / `openai_proxy`; skipping the custom `httpx` transport so httpx's env-proxy auto-detection applies. Pass `http_socket_options=[...]` to opt back into kernel-level TCP keepalive tuning on top of the env proxy.
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+{"tool": "list_tasks", "user_id": "default-user", "arguments": {"status": "pending"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T10:05:35.638064Z"}
+{"tool": "list_tasks", "user_id": "default-user", "duration_ms": 4.95, "result": "{\"count\": 2, \"tasks\": [{\"id\": 2, \"title\": \"agent\u5b66\u4e60\", \"description\": \"\u5b66\u4e60agent\u76f8\u5173\u5185\u5bb9\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T13:34:01.634916+00:00\"}, {\"id\": 1, \"title\": \"\u63d0\u4ea4\u9879\u76ee\u5468\u62a5\", \"description\": \"\u6574\u7406\u672c\u5468\u8fdb\u5c55\", \"status\": \"pending\", \"priority\": \"normal\", \"due_time\": null, \"created_at\": \"2026-08-12T12:24:16.111624+00:00\"}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T10:05:35.643009Z"}
+{"tool": "search_memory", "user_id": "default-user", "arguments": {"query": "\u6211\u7684\u559c\u597d", "memory_type": "preference"}, "event": "tool_call_start", "level": "info", "timestamp": "2026-08-13T10:05:35.643175Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/embeddings "HTTP/1.1 200 OK"
+{"tool_name": "search_memory", "source": "search_memory_tool", "user_id": "default-user", "query": "\u6211\u7684\u559c\u597d", "memory_type": "preference", "result_count": 1, "top_similarity": 0.4398, "duration_ms": 255.08, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-13T10:05:35.898358Z"}
+{"tool": "search_memory", "user_id": "default-user", "duration_ms": 255.36, "result": "{\"memories\": [{\"id\": 2, \"type\": \"preference\", \"content\": \"\u7528\u6237\u559c\u6b22Python\u7f16\u7a0b\u8bed\u8a00\", \"importance\": 3, \"similarity\": 0.4398}]}", "event": "tool_call_end", "level": "info", "timestamp": "2026-08-13T10:05:35.898550Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+WARNING:  WatchFiles detected changes in 'app/models/observability.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:09:27.779834Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15832]
+INFO:     Started server process [16400]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:09:29.598482Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/repositories/run_repository.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:09:35.260741Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16400]
+INFO:     Started server process [16407]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:09:36.989520Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/repositories/run_repository.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:10:08.783472Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16407]
+INFO:     Started server process [16438]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:10:10.171187Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/models/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:10:27.463913Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16438]
+INFO:     Started server process [16458]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:10:28.970302Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/observability/tracking.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:10:38.469905Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16458]
+INFO:     Started server process [16468]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:10:40.120831Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/observability/tracking.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:11:32.032632Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16468]
+INFO:     Started server process [16500]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:11:33.414481Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/observability/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:11:53.831485Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16500]
+INFO:     Started server process [16526]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Started server process [16553]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/agents/graph.py'. Reloading...
+INFO:     Started server process [16593]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/agents/graph.py'. Reloading...
+INFO:     Started server process [16618]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/agents/graph.py'. Reloading...
+INFO:     Started server process [16643]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/context/__init__.py'. Reloading...
+INFO:     Started server process [16672]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/context/__init__.py'. Reloading...
+INFO:     Started server process [16683]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/tools/knowledge_tool.py'. Reloading...
+INFO:     Started server process [16696]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/tools/knowledge_tool.py'. Reloading...
+INFO:     Started server process [16707]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/tools/gateway.py'. Reloading...
+INFO:     Started server process [16718]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/tools/gateway.py'. Reloading...
+INFO:     Started server process [16729]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+INFO:     Started server process [16750]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+INFO:     Started server process [16770]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+INFO:     Started server process [16799]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/schemas/run.py'. Reloading...
+INFO:     Started server process [16822]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/schemas/run.py'. Reloading...
+INFO:     Started server process [16838]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/security/auth.py'. Reloading...
+INFO:     Started server process [16862]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/api/routes/runs.py'. Reloading...
+INFO:     Started server process [16873]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/api/routes/runs.py'. Reloading...
+INFO:     Started server process [16899]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+    ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 424, in __getattr__
+    bl = self.bind()
+         ^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_config.py", line 361, in bind
+    _logger = _CONFIG.logger_factory(*self._logger_factory_args)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '_RedactingPrintLogger' object is not callable
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/api/__init__.py'. Reloading...
+Process SpawnProcess-61:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'app/api/routes/health.py'. Reloading...
+Process SpawnProcess-62:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'app/main.py'. Reloading...
+Process SpawnProcess-63:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'app/database/session.py'. Reloading...
+Process SpawnProcess-64:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'alembic/versions/0008_observability.py'. Reloading...
+Process SpawnProcess-65:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'alembic/versions/0008_observability.py'. Reloading...
+Process SpawnProcess-66:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'app/observability/__init__.py'. Reloading...
+Process SpawnProcess-67:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'app/observability/__init__.py'. Reloading...
+Process SpawnProcess-68:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'evaluation/evaluators.py'. Reloading...
+Process SpawnProcess-69:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'evaluation/evaluators.py'. Reloading...
+Process SpawnProcess-70:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'evaluation/evaluators.py'. Reloading...
+Process SpawnProcess-71:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'evaluation/evaluators.py'. Reloading...
+Process SpawnProcess-72:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'evaluation/evaluators.py'. Reloading...
+Process SpawnProcess-73:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'evaluation/runner.py'. Reloading...
+Process SpawnProcess-74:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'evaluation/runner.py'. Reloading...
+Process SpawnProcess-75:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'evaluation/__init__.py'. Reloading...
+WARNING:  WatchFiles detected changes in 'evaluation/datasets/__init__.py'. Reloading...
+Process SpawnProcess-76:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+Process SpawnProcess-77:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 22, in import_from_string
+    raise exc from None
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/runs.py", line 18, in <module>
+    from app.security.auth import verify_admin_token
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/security/auth.py", line 12, in <module>
+    import jwt
+ModuleNotFoundError: No module named 'jwt'
+WARNING:  WatchFiles detected changes in 'app/security/auth.py'. Reloading...
+INFO:     Started server process [31319]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_native.py", line 172, in meth
+    return self._proxy_to_logger(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_base.py", line 224, in _proxy_to_logger
+    return getattr(self._logger, method_name)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: PrintLogger.msg() got an unexpected keyword argument 'event'
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'evaluation/evaluators.py'. Reloading...
+INFO:     Started server process [31378]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_native.py", line 172, in meth
+    return self._proxy_to_logger(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_base.py", line 224, in _proxy_to_logger
+    return getattr(self._logger, method_name)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: PrintLogger.msg() got an unexpected keyword argument 'event'
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'evaluation/runner.py'. Reloading...
+INFO:     Started server process [31410]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_native.py", line 172, in meth
+    return self._proxy_to_logger(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_base.py", line 224, in _proxy_to_logger
+    return getattr(self._logger, method_name)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: PrintLogger.msg() got an unexpected keyword argument 'event'
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'evaluation/evaluators.py'. Reloading...
+INFO:     Started server process [31453]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 648, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 20, in lifespan
+    logger.info("starting_personal_ai_assistant")
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_native.py", line 172, in meth
+    return self._proxy_to_logger(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/structlog/_base.py", line 224, in _proxy_to_logger
+    return getattr(self._logger, method_name)(*args, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: PrintLogger.msg() got an unexpected keyword argument 'event'
+
+ERROR:    Application startup failed. Exiting.
+WARNING:  WatchFiles detected changes in 'app/observability/__init__.py'. Reloading...
+INFO:     Started server process [31538]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:36:22.958637Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/observability/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:36:54.639018Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [31538]
+INFO:     Started server process [31685]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:36:56.412231Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'evaluation/evaluators.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:38:00.426980Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [31685]
+INFO:     Started server process [31810]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:38:01.993343Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'evaluation/evaluators.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:39:35.661239Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [31810]
+INFO:     Started server process [31952]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:39:37.466528Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:50:11.882098Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [31952]
+INFO:     Started server process [32649]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:50:13.418583Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-13T10:50:15.760989Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [32649]
+INFO:     Started server process [32670]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:50:17.064944Z"}
+INFO:     Application startup complete.

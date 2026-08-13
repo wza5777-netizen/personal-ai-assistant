@@ -1,0 +1,103 @@
+{
+  "version": "1.0",
+  "description": "Golden evaluation dataset for the Personal AI Assistant agent. Each case specifies the natural-language user input, the expected tool selection, the expected (or minimum required) arguments, and the evaluation type it covers.",
+  "cases": [
+    {
+      "id": "casual-001",
+      "category": "casual_conversation",
+      "input": "Hey, how are you doing today? Tell me a fun fact about space.",
+      "expected_tool": null,
+      "description": "Ordinary chit-chat; the agent should respond without calling any tool."
+    },
+    {
+      "id": "task-001",
+      "category": "create_task",
+      "input": "Create a task: finish the quarterly report, due on 2026-08-20, high priority.",
+      "expected_tool": "create_task",
+      "expected_args": {
+        "title": "finish the quarterly report",
+        "due_date": "2026-08-20",
+        "priority": "high"
+      },
+      "description": "Should create a task with title, due date and priority."
+    },
+    {
+      "id": "task-002",
+      "category": "create_task",
+      "input": "Remind me to call the dentist tomorrow at 10am.",
+      "expected_tool": "create_task",
+      "expected_args": {
+        "title": "call the dentist"
+      },
+      "description": "Should create a task with an inferred title."
+    },
+    {
+      "id": "task-003",
+      "category": "list_tasks",
+      "input": "What tasks do I have on my list right now?",
+      "expected_tool": "list_tasks",
+      "expected_args": {},
+      "description": "Should list existing tasks without arguments."
+    },
+    {
+      "id": "cal-001",
+      "category": "calendar_query",
+      "input": "What events do I have scheduled next Monday?",
+      "expected_tool": "query_calendar",
+      "expected_args": {
+        "start_date": "next Monday"
+      },
+      "description": "Should query the calendar for the upcoming week."
+    },
+    {
+      "id": "cal-002",
+      "category": "calendar_create",
+      "input": "Schedule a meeting with the design team on 2026-08-25 from 14:00 to 15:00 titled Sprint Planning.",
+      "expected_tool": "create_event",
+      "expected_args": {
+        "title": "Sprint Planning",
+        "start_time": "2026-08-25T14:00",
+        "end_time": "2026-08-25T15:00"
+      },
+      "description": "Should create a calendar event with title and time range."
+    },
+    {
+      "id": "mem-001",
+      "category": "memory_save",
+      "input": "Remember that I prefer to work in focused 90 minute blocks.",
+      "expected_tool": "save_memory",
+      "expected_args": {
+        "content": "prefers to work in focused 90 minute blocks"
+      },
+      "description": "Should persist a user preference to long-term memory."
+    },
+    {
+      "id": "mem-002",
+      "category": "memory_retrieve",
+      "input": "Do you remember how I like to work?",
+      "expected_tool": "search_memory",
+      "expected_args": {},
+      "description": "Should retrieve a previously stored memory."
+    },
+    {
+      "id": "kb-001",
+      "category": "knowledge_retrieval",
+      "input": "According to the company handbook, what is the remote work policy?",
+      "expected_tool": "search_knowledge",
+      "expected_args": {
+        "query": "remote work policy"
+      },
+      "description": "Should retrieve relevant knowledge base chunks."
+    },
+    {
+      "id": "kb-002",
+      "category": "knowledge_retrieval",
+      "input": "Find the onboarding guide section about expense reimbursement.",
+      "expected_tool": "search_knowledge",
+      "expected_args": {
+        "query": "expense reimbursement"
+      },
+      "description": "Should retrieve the expense reimbursement documentation."
+    }
+  ]
+}
