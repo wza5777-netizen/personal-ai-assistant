@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { apiClient, RunDetail, TraceEventView } from "@/lib/api-client";
 
 const EVENT_ICON: Record<string, string> = {
@@ -65,8 +65,9 @@ function Timeline({ events }: { events: TraceEventView[] }) {
 export default function RunDetailPage({
   params,
 }: {
-  params: { runId: string };
+  params: Promise<{ runId: string }>;
 }) {
+  const { runId } = use(params);
   const [run, setRun] = useState<RunDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -77,7 +78,7 @@ export default function RunDetailPage({
       setLoading(true);
       setError(null);
       try {
-        const data = await apiClient.getRun(params.runId);
+        const data = await apiClient.getRun(runId);
         if (active) setRun(data);
       } catch (e) {
         if (active) setError(e instanceof Error ? e.message : "加载失败");
@@ -88,7 +89,7 @@ export default function RunDetailPage({
     return () => {
       active = false;
     };
-  }, [params.runId]);
+  }, [runId]);
 
   return (
     <div className="space-y-6">

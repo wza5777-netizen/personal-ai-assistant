@@ -70,3 +70,7 @@
  GET /chat 200 in 38ms
  ✓ Compiled in 121ms (243 modules)
  GET /chat 200 in 120ms
+ ✓ Compiled in 709ms (243 modules)
+ ✓ Compiled in 79ms (243 modules)
+ ✓ Compiled in 184ms (243 modules)
+ ✓ Compiled in 118ms (243 modules)
