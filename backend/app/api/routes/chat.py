@@ -14,8 +14,8 @@ from app.models.approval import Approval
 from app.models.conversation import Conversation
 from app.models.message import Message
 from app.observability import tracking
-from app.repositories.conversation_repository import get_or_create_conversation, get_messages
-from app.schemas.chat import ChatRequest, ChatResponse, MessageItem
+from app.repositories.conversation_repository import get_or_create_conversation, get_messages, get_recent_conversation
+from app.schemas.chat import ChatRequest, ChatResponse, MessageItem, ConversationItem
 
 router = APIRouter()
 
@@ -80,6 +80,27 @@ async def get_conversation_messages(conversation_id: str, user_id: str = "") -> 
             created_at=m.created_at.isoformat() if m.created_at else "",
         )
         for m in messages
+    ]
+
+
+@router.get("/conversations", response_model=list[ConversationItem])
+async def list_conversations(user_id: str = "") -> list[ConversationItem]:
+    """Return the user's conversations (most recent first).
+
+    Used by the frontend to recover the latest conversation when no
+    ``conversation_id`` is stored locally, so chat history survives reloads
+    even if the local id was never persisted.
+    """
+    user_id = user_id or DEFAULT_USER_ID
+    conversation = await get_recent_conversation(user_id)
+    if conversation is None:
+        return []
+    return [
+        ConversationItem(
+            id=conversation.id,
+            title=conversation.title,
+            created_at=conversation.created_at.isoformat() if conversation.created_at else "",
+        )
     ]
 
 

@@ -2809,3 +2809,95 @@ INFO:     Started server process [75974]
 INFO:     Waiting for application startup.
 {"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:13:30.152645Z"}
 INFO:     Application startup complete.
+INFO:     127.0.0.1:60724 - "OPTIONS /api/v1/chat/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60724 - "POST /api/v1/chat/stream HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for connections to close. (CTRL+C to force quit)
+{"run_id": "0cc7cd5660604555a880a4fbdafaf0e2", "user_id": "default-user", "event": "agent_run_started", "level": "info", "timestamp": "2026-08-14T08:20:14.122753Z"}
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/embeddings "HTTP/1.1 200 OK"
+{"source": "context_builder", "user_id": "default-user", "query": "\u4f60\u597d", "hits": 1, "conversation_messages": 10, "duration_ms": 8771.3, "event": "memory_retrieval", "level": "info", "timestamp": "2026-08-14T08:20:22.894746Z"}
+langchain-openai detected system proxy configuration and no explicit `http_socket_options` / `http_client` / `http_async_client` / `openai_proxy`; skipping the custom `httpx` transport so httpx's env-proxy auto-detection applies. Pass `http_socket_options=[...]` to opt back into kernel-level TCP keepalive tuning on top of the env proxy.
+HTTP Request: POST https://ark.cn-beijing.volces.com/api/plan/v3/chat/completions "HTTP/1.1 200 OK"
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/protocols/http/httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 145, in app
+    await response(scope, receive, send)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/responses.py", line 273, in __call__
+    async with create_collapsing_task_group() as task_group:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py", line 231, in __aexit__
+    await self.gen.athrow(value)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/_utils.py", line 93, in create_collapsing_task_group
+    raise exc from exc.__cause__ or context
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/anyio/_core/_tasks.py", line 275, in _run_coro
+    retval = await self._coro
+             ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/responses.py", line 276, in wrap
+    await func()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/starlette/responses.py", line 250, in stream_response
+    async for chunk in self.body_iterator:
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 161, in event_generator
+    await tracking.finish_run(
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/observability/tracking.py", line 154, in finish_run
+    await repo.update_run_status(run_id, status, final_response=final_response, error=error)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/repositories/run_repository.py", line 65, in update_run_status
+    run.finish(status, final_response=final_response, error=error)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/models/observability.py", line 58, in finish
+    self.latency_ms = int((self.finished_at - self.started_at).total_seconds() * 1000)
+                           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+TypeError: can't subtract offset-naive and offset-aware datetimes
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:20:40.380256Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [75974]
+INFO:     Stopping reloader process [93992]

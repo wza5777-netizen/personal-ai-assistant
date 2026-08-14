@@ -68,3 +68,16 @@ async def get_messages(conversation_id: str, user_id: str) -> list[Message]:
         )
         result = await session.execute(stmt)
         return list(result.scalars().all())
+
+
+async def get_recent_conversation(user_id: str) -> Conversation | None:
+    """Return the user's most recent conversation, or ``None`` if they have none."""
+    async with AsyncSessionLocal() as session:
+        stmt = (
+            select(Conversation)
+            .where(Conversation.user_id == user_id)
+            .order_by(Conversation.created_at.desc())
+            .limit(1)
+        )
+        result = await session.execute(stmt)
+        return result.scalars().first()

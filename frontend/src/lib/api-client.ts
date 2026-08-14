@@ -21,6 +21,13 @@ export interface MessageItem {
   created_at: string;
 }
 
+/** A conversation summary returned by the list endpoint. */
+export interface ConversationItem {
+  id: string;
+  title: string | null;
+  created_at: string;
+}
+
 export interface HealthResponse {
   status: string;
 }
@@ -243,6 +250,11 @@ export const apiClient = {
   getConversationMessages: (conversationId: string, userId = "default-user") =>
     request<MessageItem[]>(
       `/api/v1/conversations/${conversationId}/messages?user_id=${encodeURIComponent(userId)}`
+    ),
+  /** List the user's conversations (most recent first). */
+  getConversations: (userId = "default-user") =>
+    request<ConversationItem[]>(
+      `/api/v1/conversations?user_id=${encodeURIComponent(userId)}`
     ),
   /** Stream a chat run over SSE. Calls ``onEvent`` for each parsed event. */
   streamChat: async (

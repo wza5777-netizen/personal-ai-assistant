@@ -68,28 +68,44 @@ export function useChat() {
   // Maps tool_call_id -> timeline entry index so tool_result merges in place.
   const timelineIndexByCallId = useRef<Map<string, number>>(new Map());
 
-  // On mount: restore any previous conversation id and its messages so the
-  // chat history survives a page refresh.
+  // Load a conversation's messages into state. Used on mount to restore history.
+  const loadConversation = useCallback(
+    async (convId: string) => {
+      setConversationId(convId);
+      window.localStorage.setItem(CONVERSATION_ID_KEY, convId);
+      try {
+        const items = await apiClient.getConversationMessages(convId, USER_ID);
+        if (items.length > 0) {
+          setMessages(items.map((m) => ({ role: m.role, content: m.content })));
+        }
+      } catch {
+        // Ignore load failures; the conversation simply starts empty.
+      }
+    },
+    []
+  );
+
+  // On mount: restore chat history so it survives a page refresh.
+  // Prefer a locally stored conversation id; if absent (or invalid), fall back
+  // to the user's most recent conversation from the backend.
   useEffect(() => {
     if (typeof window === "undefined") return;
     const savedId = window.localStorage.getItem(CONVERSATION_ID_KEY);
-    if (!savedId) return;
-    setConversationId(savedId);
+    if (savedId) {
+      loadConversation(savedId);
+      return;
+    }
     apiClient
-      .getConversationMessages(savedId, USER_ID)
-      .then((items) => {
-        if (items.length > 0) {
-          setMessages(
-            items.map((m) => ({ role: m.role, content: m.content }))
-          );
+      .getConversations(USER_ID)
+      .then((convs) => {
+        if (convs.length > 0) {
+          loadConversation(convs[0].id);
         }
       })
       .catch(() => {
-        // Ignore load failures; treat as a fresh conversation.
-        window.localStorage.removeItem(CONVERSATION_ID_KEY);
-        setConversationId(null);
+        // No conversations yet; start fresh.
       });
-  }, []);
+  }, [loadConversation]);
 
   // Append a streamed token to the last assistant message, creating one only
   // if the previous last message is not an assistant turn. The target index is

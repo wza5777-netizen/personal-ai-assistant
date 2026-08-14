@@ -16,6 +16,12 @@ class MessageItem(BaseModel):
     created_at: str = Field(..., description="ISO creation timestamp")
 
 
+class ConversationItem(BaseModel):
+    id: str = Field(..., description="Conversation id")
+    title: str | None = Field(default=None, description="Conversation title")
+    created_at: str = Field(..., description="ISO creation timestamp")
+
+
 class ChatResponse(BaseModel):
     response: str = Field(..., description="Agent response text")
     conversation_id: str = Field(..., description="Conversation this exchange belongs to")
