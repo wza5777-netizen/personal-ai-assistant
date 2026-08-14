@@ -4,7 +4,9 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 
 export interface ChatRequest {
-  user_id: string;
+  // NOTE: user identity is resolved server-side (DEFAULT_USER_ID); the client
+  // no longer sends/controls user_id. Kept optional only for backward compat.
+  user_id?: string;
   message: string;
   conversation_id?: string | null;
 }
@@ -247,15 +249,14 @@ export const apiClient = {
       body: JSON.stringify(payload),
     }),
   /** Fetch all persisted messages for a conversation (time ascending). */
-  getConversationMessages: (conversationId: string, userId = "default-user") =>
-    request<MessageItem[]>(
-      `/api/v1/conversations/${conversationId}/messages?user_id=${encodeURIComponent(userId)}`
-    ),
-  /** List the user's conversations (most recent first). */
-  getConversations: (userId = "default-user") =>
-    request<ConversationItem[]>(
-      `/api/v1/conversations?user_id=${encodeURIComponent(userId)}`
-    ),
+  getConversationMessages: (conversationId: string) =>
+    request<MessageItem[]>(`/api/v1/conversations/${conversationId}/messages`),
+  /** List the current user's conversations (most recent first). */
+  getConversations: () =>
+    request<ConversationItem[]>(`/api/v1/conversations`),
+  /** List conversations (alias for future sidebar use). */
+  listConversations: () =>
+    request<ConversationItem[]>(`/api/v1/conversations`),
   /** Stream a chat run over SSE. Calls ``onEvent`` for each parsed event. */
   streamChat: async (
     payload: ChatRequest,

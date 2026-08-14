@@ -22,6 +22,9 @@ class Conversation(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), default=_utcnow
     )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), default=_utcnow
+    )
 
     user: Mapped["User"] = relationship(back_populates="conversations")  # noqa: F821
     messages: Mapped[list["Message"]] = relationship(  # noqa: F821

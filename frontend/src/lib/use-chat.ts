@@ -44,7 +44,6 @@ function describeToolStatus(toolName?: string): string {
   return TOOL_STATUS_LABELS[toolName] ?? `正在使用工具 ${toolName}…`;
 }
 
-const USER_ID = "default-user";
 const CONVERSATION_ID_KEY = "conversation_id";
 
 /**
@@ -74,7 +73,7 @@ export function useChat() {
       setConversationId(convId);
       window.localStorage.setItem(CONVERSATION_ID_KEY, convId);
       try {
-        const items = await apiClient.getConversationMessages(convId, USER_ID);
+        const items = await apiClient.getConversationMessages(convId);
         if (items.length > 0) {
           setMessages(items.map((m) => ({ role: m.role, content: m.content })));
         }
@@ -96,7 +95,7 @@ export function useChat() {
       return;
     }
     apiClient
-      .getConversations(USER_ID)
+      .getConversations()
       .then((convs) => {
         if (convs.length > 0) {
           loadConversation(convs[0].id);
@@ -245,7 +244,7 @@ export function useChat() {
 
     try {
       await apiClient.streamChat(
-        { user_id: USER_ID, message: text, conversation_id: conversationId },
+        { message: text, conversation_id: conversationId },
         handleEvent
       );
       setStreamingStatus("done");

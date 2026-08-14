@@ -20,6 +20,7 @@ class ConversationItem(BaseModel):
     id: str = Field(..., description="Conversation id")
     title: str | None = Field(default=None, description="Conversation title")
     created_at: str = Field(..., description="ISO creation timestamp")
+    updated_at: str = Field(..., description="ISO last-update timestamp")
 
 
 class ChatResponse(BaseModel):

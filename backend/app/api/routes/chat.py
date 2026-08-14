@@ -14,7 +14,15 @@ from app.models.approval import Approval
 from app.models.conversation import Conversation
 from app.models.message import Message
 from app.observability import tracking
-from app.repositories.conversation_repository import get_or_create_conversation, get_messages, get_recent_conversation
+from app.repositories.conversation_repository import (
+    get_or_create_conversation,
+    get_messages,
+    get_recent_conversation,
+    list_conversations,
+    update_conversation_title,
+    derive_title,
+    DEFAULT_CONVERSATION_TITLE,
+)
 from app.schemas.chat import ChatRequest, ChatResponse, MessageItem, ConversationItem
 
 router = APIRouter()
@@ -46,17 +54,25 @@ async def _persist_message(
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest) -> ChatResponse:
-    """Accept a user message, run the agent, and persist the exchange."""
-    user_id = request.user_id or DEFAULT_USER_ID
+    """Accept a user message, run the agent, and persist the exchange.
+
+    The acting user identity is always ``DEFAULT_USER_ID`` (server-side); the
+    client-supplied ``request.user_id`` is intentionally ignored.
+    """
+    current_user_id = DEFAULT_USER_ID
     messages = [HumanMessage(content=request.message)]
 
     async with AsyncSessionLocal() as session:
-        conversation = await _ensure_user_and_conversation(session, user_id, request.conversation_id)
+        conversation = await _ensure_user_and_conversation(session, current_user_id, request.conversation_id)
         conv_id = conversation.id
         await _persist_message(session, conv_id, "user", request.message)
+        # Lightweight auto-title: first user message becomes the title (only if
+        # the conversation still has the default title). No LLM involved.
+        if conversation.title == DEFAULT_CONVERSATION_TITLE:
+            await update_conversation_title(session, conv_id, derive_title(request.message))
         await session.commit()
 
-    result = await invoke_agent(messages, user_id=user_id, conversation_id=conv_id)
+    result = await invoke_agent(messages, user_id=current_user_id, conversation_id=conv_id)
 
     async with AsyncSessionLocal() as session:
         await _persist_message(session, conv_id, "assistant", result["response"])
@@ -66,13 +82,14 @@ async def chat(request: ChatRequest) -> ChatResponse:
 
 
 @router.get("/conversations/{conversation_id}/messages", response_model=list[MessageItem])
-async def get_conversation_messages(conversation_id: str, user_id: str = "") -> list[MessageItem]:
+async def get_conversation_messages(conversation_id: str) -> list[MessageItem]:
     """Return all messages of a conversation ordered by time ascending.
 
-    Only the owner of the conversation may read it; other users get an empty list.
+    The acting user is the server-side ``DEFAULT_USER_ID``; the conversation
+    must belong to them. Other users' conversations return an empty list.
     """
-    user_id = user_id or DEFAULT_USER_ID
-    messages = await get_messages(conversation_id, user_id)
+    current_user_id = DEFAULT_USER_ID
+    messages = await get_messages(conversation_id, current_user_id)
     return [
         MessageItem(
             role=m.role,
@@ -84,23 +101,23 @@ async def get_conversation_messages(conversation_id: str, user_id: str = "") -> 
 
 
 @router.get("/conversations", response_model=list[ConversationItem])
-async def list_conversations(user_id: str = "") -> list[ConversationItem]:
-    """Return the user's conversations (most recent first).
+async def list_conversations_route() -> list[ConversationItem]:
+    """Return the current user's conversations ordered by ``updated_at`` desc.
 
     Used by the frontend to recover the latest conversation when no
-    ``conversation_id`` is stored locally, so chat history survives reloads
-    even if the local id was never persisted.
+    ``conversation_id`` is stored locally, and as the basis for a future chat
+    list sidebar.
     """
-    user_id = user_id or DEFAULT_USER_ID
-    conversation = await get_recent_conversation(user_id)
-    if conversation is None:
-        return []
+    current_user_id = DEFAULT_USER_ID
+    conversations = await list_conversations(current_user_id)
     return [
         ConversationItem(
-            id=conversation.id,
-            title=conversation.title,
-            created_at=conversation.created_at.isoformat() if conversation.created_at else "",
+            id=c.id,
+            title=c.title,
+            created_at=c.created_at.isoformat() if c.created_at else "",
+            updated_at=c.updated_at.isoformat() if c.updated_at else "",
         )
+        for c in conversations
     ]
 
 
@@ -112,16 +129,18 @@ async def chat_stream(request: ChatRequest) -> StreamingResponse:
     ``agent_end`` in real time. When the agent pauses for a HIGH-risk tool, an
     ``agent_end`` event with ``status='awaiting_approval'`` is emitted.
     """
-    user_id = request.user_id or DEFAULT_USER_ID
+    current_user_id = DEFAULT_USER_ID
     messages = [HumanMessage(content=request.message)]
 
     async def event_generator():
         # Ensure a conversation/row exists before the run so approvals can be
         # scoped correctly, then run the agent with a live stream sink.
         async with AsyncSessionLocal() as session:
-            conversation = await _ensure_user_and_conversation(session, user_id, request.conversation_id)
+            conversation = await _ensure_user_and_conversation(session, current_user_id, request.conversation_id)
             conv_id = conversation.id
             await _persist_message(session, conv_id, "user", request.message)
+            if conversation.title == DEFAULT_CONVERSATION_TITLE:
+                await update_conversation_title(session, conv_id, derive_title(request.message))
             await session.commit()
 
             queue: asyncio.Queue = asyncio.Queue()
@@ -136,14 +155,14 @@ async def chat_stream(request: ChatRequest) -> StreamingResponse:
             set_run_id(run_id)
             tracking.set_run_context(session=session, run_id=run_id)
             await tracking.start_run(
-                user_id=user_id, conversation_id=conv_id, prompt=request.message
+                user_id=current_user_id, conversation_id=conv_id, prompt=request.message
             )
 
             try:
                 run_task = asyncio.create_task(
                     invoke_agent(
                         messages,
-                        user_id=user_id,
+                        user_id=current_user_id,
                         conversation_id=conv_id,
                         db=session,
                     )
