@@ -62,20 +62,22 @@ export function useChat() {
   // Short status line ("正在搜索知识库…") shown next to the live reply.
   const [agentStatus, setAgentStatus] = useState("");
 
-  // Index of the in-progress assistant message being streamed into.
-  const assistantIndex = useRef<number>(-1);
   // Maps tool_call_id -> timeline entry index so tool_result merges in place.
   const timelineIndexByCallId = useRef<Map<string, number>>(new Map());
 
+  // Append a streamed token to the last assistant message, creating one only
+  // if the previous last message is not an assistant turn. The target index is
+  // derived purely from the `prev` snapshot inside the updater — never from a
+  // ref — so concurrent tokens batched in the same React tick all land in the
+  // same message instead of spawning duplicate bubbles.
   const appendToken = useCallback((token: string) => {
     setMessages((prev) => {
-      const next = [...prev];
-      const idx = assistantIndex.current;
-      if (idx < 0 || !next[idx] || next[idx].role !== "assistant") {
-        next.push({ role: "assistant", content: token });
-        assistantIndex.current = next.length - 1;
+      const next = prev.slice();
+      const lastIdx = next.length - 1;
+      if (lastIdx >= 0 && next[lastIdx].role === "assistant") {
+        next[lastIdx] = { ...next[lastIdx], content: next[lastIdx].content + token };
       } else {
-        next[idx] = { ...next[idx], content: next[idx].content + token };
+        next.push({ role: "assistant", content: token });
       }
       return next;
     });
@@ -186,7 +188,6 @@ export function useChat() {
     // 1) Immediately show the user message. No empty assistant bubble —
     //    the assistant reply appears only when the first token arrives.
     setMessages((prev) => [...prev, { role: "user", content: text }]);
-    assistantIndex.current = -1;
     timelineIndexByCallId.current.clear();
     setInput("");
     setStreamingStatus("streaming");
@@ -203,8 +204,6 @@ export function useChat() {
       appendToken("\n\n生成失败，请重试。");
       addTimelineEntry({ type: "error", message: "连接或流式服务失败" });
       setStreamingStatus("error");
-    } finally {
-      assistantIndex.current = -1;
     }
   }, [input, streamingStatus, handleEvent, appendToken, addTimelineEntry]);
 
