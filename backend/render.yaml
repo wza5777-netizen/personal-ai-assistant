@@ -38,5 +38,8 @@ services:
         sync: false
       - key: JWT_SECRET
         sync: false
+      # Comma-separated list of allowed browser origins. MUST include the
+      # deployed frontend domain (once known) AND the backend domain itself.
+      # Example: https://paa-frontend.onrender.com,https://personal-ai-assistant-l97e.onrender.com
       - key: CORS_ORIGINS
         value: https://personal-ai-assistant-l97e.onrender.com

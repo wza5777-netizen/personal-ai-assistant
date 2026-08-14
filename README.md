@@ -268,6 +268,39 @@ uv run python -m evaluation.runner
 
 ---
 
+## Render 部署（托管云服务）
+
+分别部署后端与前端为两个独立的 Render Web Service。
+
+### 后端（Python + uv）
+
+- Runtime: **Python 3**，Root Directory: `backend`
+- Build Command：`uv sync --frozen --no-dev && uv run alembic upgrade head`
+- Start Command：`uv run uvicorn app.main:app --host 0.0.0.0 --port "$PORT"`
+- 健康检查：`/health`
+- 环境变量（在 Render 控制台设置）：
+  - `DATABASE_URL`：`postgresql+asyncpg://...@neon.../dbname?ssl=require`
+  - `OPENAI_API_KEY` / `OPENAI_BASE_URL` / `OPENAI_MODEL`
+  - `JWT_SECRET`
+  - `CORS_ORIGINS`：逗号分隔的允许来源，**必须包含前端域名 + 后端自身域名**，
+    如 `https://paa-frontend.onrender.com,https://personal-ai-assistant-l97e.onrender.com`
+  - `APP_ENV=production`
+- 数据库用 Neon（或 Render Postgres），**首次需手动执行一次** `CREATE EXTENSION IF NOT EXISTS vector;`
+
+### 前端（Next.js）
+
+- Runtime: **Node**，Root Directory: `frontend`
+- Build Command：`npm install && npm run build`
+- Start Command：`npm run start`
+- 健康检查：`/`
+- 环境变量：
+  - `NODE_VERSION=20`
+  - `NEXT_PUBLIC_API_BASE_URL`：后端公网地址（**构建时内联**，需部署前设置），
+    如 `https://personal-ai-assistant-l97e.onrender.com`（无末尾斜杠）
+- ⚠️ `NEXT_PUBLIC_*` 变量在 `next build` 时固化进产物，修改后必须**重新构建**。
+
+---
+
 ## 优雅关闭
 
 * FastAPI 关闭时通过 `await engine.dispose()` 释放数据库连接池。

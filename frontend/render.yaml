@@ -1,0 +1,21 @@
+# Render deployment manifest for the Next.js frontend.
+# Deploys as a Node web service running `next build` + `next start`.
+#
+# IMPORTANT: NEXT_PUBLIC_API_BASE_URL is inlined at BUILD time. Set it in the
+# Render dashboard (it is listed under envVars below) before the first build.
+# This must be the backend's public URL (no trailing slash), e.g.
+#   https://personal-ai-assistant-l97e.onrender.com
+
+services:
+  - type: web
+    name: paa-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NEXT_PUBLIC_API_BASE_URL
+        value: https://personal-ai-assistant-l97e.onrender.com
