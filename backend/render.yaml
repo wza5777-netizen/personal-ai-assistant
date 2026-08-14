@@ -13,6 +13,7 @@ services:
     name: paa-backend
     runtime: python
     rootDir: backend
+    pythonVersion: "3.12"
     buildCommand: |
       curl -LsSf https://astral.sh/uv/install.sh | sh
       export PATH="$HOME/.local/bin:$PATH"

@@ -21,7 +21,7 @@ structlog==26.1.0
 
 # Knowledge / RAG
 pgvector==0.3.6
-langchain-text-splitters==0.3.8
+langchain-text-splitters==1.1.2
 pypdf==6.15.0
 
 # Form uploads (UploadFile / File)
