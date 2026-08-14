@@ -5,12 +5,19 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import api_router
+from app.config import settings
 from app.database.session import init_db
 from app.observability import configure_logging, logger
 
+# CORS origins: local defaults + any extra origins from the environment
+# (comma-separated). Set CORS_ORIGINS in production to include the deployed
+# frontend and API domains, e.g.
+#   https://your-frontend.onrender.com,https://personal-ai-assistant-l97e.onrender.com
+_extra_origins = [o.strip() for o in (settings.cors_origins or "").split(",") if o.strip()]
 ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    *_extra_origins,
 ]
 
 

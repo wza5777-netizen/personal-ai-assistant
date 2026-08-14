@@ -38,3 +38,5 @@ services:
         sync: false
       - key: JWT_SECRET
         sync: false
+      - key: CORS_ORIGINS
+        value: https://personal-ai-assistant-l97e.onrender.com

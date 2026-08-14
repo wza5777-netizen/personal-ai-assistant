@@ -28,6 +28,10 @@ class Settings(BaseSettings):
     # JWT secret used for admin auth (real value from .env). Never logged.
     jwt_secret: str = ""
 
+    # CORS: comma-separated extra allowed origins for production
+    # (e.g. "https://app.onrender.com,https://api.onrender.com").
+    cors_origins: str = ""
+
 
 @lru_cache
 def get_settings() -> Settings:
