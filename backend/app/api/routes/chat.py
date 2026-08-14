@@ -71,6 +71,7 @@ async def chat(request: ChatRequest) -> ChatResponse:
         conversation = await _ensure_user_and_conversation(session, user_id)
         conv_id = conversation.id
         await _persist_message(session, conv_id, "user", request.message)
+        await session.commit()
 
     result = await invoke_agent(messages, user_id=user_id, conversation_id=conv_id)
 
