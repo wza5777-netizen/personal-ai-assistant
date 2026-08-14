@@ -101,21 +101,48 @@ user_message ──▶ build_context (memory+conversation retrieval)
 
 ---
 
+## 依赖管理（uv）
+
+后端使用 **uv** 作为唯一依赖与运行管理器，依赖真相源为 `pyproject.toml` + `uv.lock`（已提交，保证可复现）：
+
+```bash
+cd backend
+
+# 安装依赖（依据 uv.lock 精确还原；首次会自动创建 .venv）
+uv sync
+
+# 仅安装生产依赖（部署/CI 用，排除 pytest 等 dev 依赖）
+uv sync --frozen --no-dev
+
+# 运行任意命令（自动使用 .venv 解释器；alembic/uvicorn 均在 uv 环境内）
+uv run alembic upgrade head
+uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
+uv run python -m evaluation.runner
+
+# 新增依赖后更新锁文件
+uv add <package>          # 或手动改 pyproject.toml 后执行：
+uv lock
+```
+
+- **不要**再维护 `requirements.txt`；所有依赖经 `pyproject.toml` 声明、`uv.lock` 锁定。
+- `.venv/` 已被 `.gitignore` 忽略；`uv.lock` 需提交。
+
+---
+
 ## 本地启动
 
 ### 后端
 
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env            # 填写 DATABASE_URL / OPENAI_API_KEY / JWT_SECRET
+uv sync                              # 依据 pyproject.toml + uv.lock 安装依赖到 .venv
+cp .env.example .env                 # 填写 DATABASE_URL / OPENAI_API_KEY / JWT_SECRET
 
 # 数据库迁移（生产标准方式，禁止依赖 create_all）
-alembic upgrade head
+uv run alembic upgrade head
 
 # 启动（生产用，不用 --reload）
-uvicorn app.main:app --host 0.0.0.0 --port 8000
+uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
 ### 前端
@@ -166,10 +193,10 @@ PostgreSQL 数据通过命名卷 `postgres_data` 持久化；pgvector 扩展由 
 
 | 变量 | 说明 |
 | --- | --- |
-| `DATABASE_URL` | 异步连接串 `postgresql+asyncpg://user:pass@postgres:5432/db` |
-| `LLM_API_KEY` | LLM API Key（生产必填） |
-| `LLM_BASE_URL` / `LLM_MODEL` | LLM 端点与模型 |
-| `EMBEDDING_API_KEY` / `EMBEDDING_BASE_URL` / `EMBEDDING_MODEL` | 可选 Embedding 配置 |
+| `DATABASE_URL` | 异步连接串 `postgresql+asyncpg://user:pass@host:5432/db`（Neon 用 `?ssl=require`） |
+| `OPENAI_API_KEY` | LLM API Key（生产必填） |
+| `OPENAI_BASE_URL` / `OPENAI_MODEL` | LLM 端点与模型 |
+| `EMBEDDING_BASE_URL` / `EMBEDDING_MODEL` | 可选 Embedding 配置（无则走确定性 fallback） |
 | `JWT_SECRET` | Admin API 的 JWT 签名密钥（生产必填，长随机串） |
 | `APP_ENV` | `development` \| `production`（生产为 `production`） |
 | `LOG_LEVEL` | 日志级别（默认 `INFO`） |
@@ -218,7 +245,7 @@ memory 保存/检索、knowledge 检索。
 ```bash
 cd backend
 
-# 使用已配置 LLM 进行真实评估（需 LLM_API_KEY）
+# 使用已配置 LLM 进行真实评估（需 OPENAI_API_KEY）
 uv run python -m evaluation.runner
 
 # 未配置 LLM 时自动回退到基于规则的基线选择器，仍会生成报告（backend=rule_based）

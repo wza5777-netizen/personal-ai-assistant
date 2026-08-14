@@ -3,8 +3,7 @@
 #
 # How this works:
 #   - Render's Python runtime executes `buildCommand` and `startCommand`.
-#   - uv is installed on the fly, then used to create a venv and install deps
-#     from requirements.txt.
+#   - uv (provided by Render) installs deps from pyproject.toml + uv.lock via `uv sync`.
 #   - Alembic migrations run at build time so the container starts ready.
 #   - `$PORT` is injected by Render (free tier uses a dynamic port).
 
@@ -15,13 +14,9 @@ services:
     rootDir: backend
     pythonVersion: "3.12"
     buildCommand: |
-      curl -LsSf https://astral.sh/uv/install.sh | sh
-      export PATH="$HOME/.local/bin:$PATH"
-      uv venv --python 3.12
-      uv pip install -r requirements.txt
+      uv sync --frozen --no-dev
       uv run alembic upgrade head
     startCommand: |
-      export PATH="$HOME/.local/bin:$PATH"
       uv run uvicorn app.main:app --host 0.0.0.0 --port "$PORT"
     healthCheckPath: /health
     envVars:

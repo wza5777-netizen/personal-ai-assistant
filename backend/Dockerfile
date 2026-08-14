@@ -4,13 +4,16 @@ FROM python:3.12-slim AS builder
 WORKDIR /app
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=1
+    UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc libpq-dev curl build-essential && rm -rf /var/lib/apt/lists/*
+# Install uv (single static binary).
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:$PATH"
 
-COPY requirements.txt .
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+# Copy only what uv needs to resolve+install, then sync into .venv.
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev
 
 # ---------- Runtime stage ----------
 FROM python:3.12-slim AS runtime
@@ -19,15 +22,15 @@ WORKDIR /app
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     APP_ENV=production \
-    LOG_LEVEL=INFO
+    LOG_LEVEL=INFO \
+    PATH="/app/.venv/bin:$PATH"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 curl postgresql-client && rm -rf /var/lib/apt/lists/* \
     && groupadd --system app && useradd --system --gid app --home /app app
 
-COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
-COPY --from=builder /usr/local/bin /usr/local/bin
-
+# Bring in the uv-managed virtualenv from the builder.
+COPY --from=builder /app/.venv /app/.venv
 # Application code + alembic (needed for `alembic upgrade head` in prod).
 COPY . .
 
