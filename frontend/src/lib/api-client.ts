@@ -6,10 +6,19 @@ const API_BASE_URL =
 export interface ChatRequest {
   user_id: string;
   message: string;
+  conversation_id?: string | null;
 }
 
 export interface ChatResponse {
   response: string;
+  conversation_id: string;
+}
+
+/** A single persisted chat message returned by the history endpoint. */
+export interface MessageItem {
+  role: "user" | "assistant";
+  content: string;
+  created_at: string;
 }
 
 export interface HealthResponse {
@@ -44,6 +53,8 @@ export interface StreamEvent {
   // agent_start / agent_end
   user_id?: string;
   response?: string;
+  // done
+  conversation_id?: string;
   // error
   message?: string;
 }
@@ -228,6 +239,11 @@ export const apiClient = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
+  /** Fetch all persisted messages for a conversation (time ascending). */
+  getConversationMessages: (conversationId: string, userId = "default-user") =>
+    request<MessageItem[]>(
+      `/api/v1/conversations/${conversationId}/messages?user_id=${encodeURIComponent(userId)}`
+    ),
   /** Stream a chat run over SSE. Calls ``onEvent`` for each parsed event. */
   streamChat: async (
     payload: ChatRequest,

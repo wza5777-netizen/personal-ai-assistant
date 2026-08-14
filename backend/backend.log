@@ -2542,3 +2542,270 @@ INFO:     Started server process [48156]
 INFO:     Waiting for application startup.
 {"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T03:15:00.882429Z"}
 INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/schemas/chat.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:00:39.133762Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [48156]
+INFO:     Started server process [61294]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:00:41.079589Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/repositories/conversation_repository.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:00:47.349049Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [61294]
+INFO:     Started server process [61309]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:00:49.134207Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/repositories/conversation_repository.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:00:59.039888Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [61309]
+INFO:     Started server process [61350]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:01:00.469964Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:01:36.868604Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [61350]
+Process SpawnProcess-97:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 25, in <module>
+    async def _ensure_user_and_conversation(session, user_id: str, conversation_id: str | None) -> Conversation:
+                                                                                                   ^^^^^^^^^^^^
+NameError: name 'Conversation' is not defined
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+Process SpawnProcess-98:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 25, in <module>
+    async def _ensure_user_and_conversation(session, user_id: str, conversation_id: str | None) -> Conversation:
+                                                                                                   ^^^^^^^^^^^^
+NameError: name 'Conversation' is not defined
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+Process SpawnProcess-99:
+Traceback (most recent call last):
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 81, in serve
+    await self._serve(sockets)
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/server.py", line 88, in _serve
+    config.load()
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 494, in load
+    self.loaded_app = self.load_app()
+                      ^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/yuxi/.pyenv/versions/3.12.11/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/main.py", line 7, in <module>
+    from app.api import api_router
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/__init__.py", line 3, in <module>
+    from app.api.routes import approvals, calendar, chat, health, knowledge, memories, runs, tasks
+  File "/Users/yuxi/Downloads/personal-ai-assistant/backend/app/api/routes/chat.py", line 25, in <module>
+    async def _ensure_user_and_conversation(session, user_id: str, conversation_id: str | None) -> Conversation:
+                                                                                                   ^^^^^^^^^^^^
+NameError: name 'Conversation' is not defined
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+INFO:     Started server process [62002]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:05:15.923688Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/api/routes/chat.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:05:40.819478Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [62002]
+INFO:     Started server process [62061]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:05:42.469725Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in '_tmp_persist_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:09:21.686478Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [62061]
+INFO:     Started server process [75476]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:09:23.768507Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in '_tmp_persist_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:09:40.772757Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [75476]
+INFO:     Started server process [75530]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:09:42.341197Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in '_tmp_http_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:10:15.220498Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [75530]
+INFO:     Started server process [75642]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:10:16.943543Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in '_tmp_http_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:10:27.663923Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [75642]
+INFO:     Started server process [75685]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:10:29.096040Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in '.venv/lib/python3.12/site-packages/aiosqlite/cursor.py', '.venv/lib/python3.12/site-packages/aiosqlite/tests/__init__.py', '.venv/lib/python3.12/site-packages/aiosqlite/context.py', '.venv/lib/python3.12/site-packages/aiosqlite/__version__.py', '.venv/lib/python3.12/site-packages/aiosqlite/tests/helpers.py', '.venv/lib/python3.12/site-packages/aiosqlite/tests/smoke.py', '.venv/lib/python3.12/site-packages/aiosqlite/core.py', '.venv/lib/python3.12/site-packages/aiosqlite/tests/perf.py', '.venv/lib/python3.12/site-packages/aiosqlite/tests/__main__.py', '.venv/lib/python3.12/site-packages/aiosqlite/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:10:54.371934Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [75685]
+INFO:     Started server process [75760]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:10:56.367226Z"}
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in '_tmp_persist_test.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:13:26.599840Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [75760]
+WARNING:  WatchFiles detected changes in '_tmp_http_test.py'. Reloading...
+INFO:     Started server process [75914]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:13:28.714835Z"}
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T08:13:28.816352Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [75914]
+INFO:     Started server process [75974]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T08:13:30.152645Z"}
+INFO:     Application startup complete.

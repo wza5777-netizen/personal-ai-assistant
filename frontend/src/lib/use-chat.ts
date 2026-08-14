@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { apiClient, StreamEvent } from "./api-client";
 
@@ -45,6 +45,7 @@ function describeToolStatus(toolName?: string): string {
 }
 
 const USER_ID = "default-user";
+const CONVERSATION_ID_KEY = "conversation_id";
 
 /**
  * Chat controller with three explicitly separated concerns:
@@ -61,9 +62,34 @@ export function useChat() {
   const [streamingStatus, setStreamingStatus] = useState<StreamingStatus>("idle");
   // Short status line ("正在搜索知识库…") shown next to the live reply.
   const [agentStatus, setAgentStatus] = useState("");
+  // Persisted conversation id used across reloads (localStorage).
+  const [conversationId, setConversationId] = useState<string | null>(null);
 
   // Maps tool_call_id -> timeline entry index so tool_result merges in place.
   const timelineIndexByCallId = useRef<Map<string, number>>(new Map());
+
+  // On mount: restore any previous conversation id and its messages so the
+  // chat history survives a page refresh.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const savedId = window.localStorage.getItem(CONVERSATION_ID_KEY);
+    if (!savedId) return;
+    setConversationId(savedId);
+    apiClient
+      .getConversationMessages(savedId, USER_ID)
+      .then((items) => {
+        if (items.length > 0) {
+          setMessages(
+            items.map((m) => ({ role: m.role, content: m.content }))
+          );
+        }
+      })
+      .catch(() => {
+        // Ignore load failures; treat as a fresh conversation.
+        window.localStorage.removeItem(CONVERSATION_ID_KEY);
+        setConversationId(null);
+      });
+  }, []);
 
   // Append a streamed token to the last assistant message, creating one only
   // if the previous last message is not an assistant turn. The target index is
@@ -174,6 +200,14 @@ export function useChat() {
           });
           setAgentStatus("出错了，请重试");
           break;
+        case "done":
+          // Persist the conversation id returned by the backend so history can
+          // be restored after a page refresh.
+          if (event.conversation_id) {
+            window.localStorage.setItem(CONVERSATION_ID_KEY, event.conversation_id);
+            setConversationId(event.conversation_id);
+          }
+          break;
         default:
           break;
       }
@@ -195,7 +229,7 @@ export function useChat() {
 
     try {
       await apiClient.streamChat(
-        { user_id: USER_ID, message: text },
+        { user_id: USER_ID, message: text, conversation_id: conversationId },
         handleEvent
       );
       setStreamingStatus("done");
@@ -205,7 +239,7 @@ export function useChat() {
       addTimelineEntry({ type: "error", message: "连接或流式服务失败" });
       setStreamingStatus("error");
     }
-  }, [input, streamingStatus, handleEvent, appendToken, addTimelineEntry]);
+  }, [input, streamingStatus, conversationId, handleEvent, appendToken, addTimelineEntry]);
 
   return {
     messages,

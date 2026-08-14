@@ -6,46 +6,29 @@ import uuid
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from langchain_core.messages import HumanMessage
-from sqlalchemy import select
 
 from app.agents.graph import invoke_agent
 from app.context.stream import set_run_id, set_stream_sink, to_sse
 from app.database.session import AsyncSessionLocal
-from app.observability import tracking
 from app.models.approval import Approval
 from app.models.conversation import Conversation
 from app.models.message import Message
-from app.models.user import User
-from app.schemas.chat import ChatRequest, ChatResponse
+from app.observability import tracking
+from app.repositories.conversation_repository import get_or_create_conversation, get_messages
+from app.schemas.chat import ChatRequest, ChatResponse, MessageItem
 
 router = APIRouter()
 
 DEFAULT_USER_ID = "default-user"
 
 
-async def _ensure_user_and_conversation(session, user_id: str) -> Conversation:
-    """Get-or-create a persistent user/conversation so context can be built later."""
-    user = await session.get(User, user_id)
-    if user is None:
-        user = User(id=user_id, email=f"{user_id}@local", display_name=user_id)
-        session.add(user)
-        await session.flush()
+async def _ensure_user_and_conversation(session, user_id: str, conversation_id: str | None) -> Conversation:
+    """Get-or-create a persistent user/conversation so context can be built later.
 
-    stmt = (
-        select(Conversation)
-        .where(Conversation.user_id == user_id)
-        .order_by(Conversation.created_at.desc())
-        .limit(1)
-    )
-    result = await session.execute(stmt)
-    conversation = result.scalars().first()
-    if conversation is None:
-        conversation = Conversation(
-            id=uuid.uuid4().hex, user_id=user_id, title="默认会话"
-        )
-        session.add(conversation)
-        await session.flush()
-    return conversation
+    If ``conversation_id`` is supplied and owned by ``user_id`` it is reused;
+    otherwise the user's most recent conversation is reused or a new one created.
+    """
+    return await get_or_create_conversation(session, user_id, conversation_id)
 
 
 async def _persist_message(
@@ -68,7 +51,7 @@ async def chat(request: ChatRequest) -> ChatResponse:
     messages = [HumanMessage(content=request.message)]
 
     async with AsyncSessionLocal() as session:
-        conversation = await _ensure_user_and_conversation(session, user_id)
+        conversation = await _ensure_user_and_conversation(session, user_id, request.conversation_id)
         conv_id = conversation.id
         await _persist_message(session, conv_id, "user", request.message)
         await session.commit()
@@ -79,7 +62,25 @@ async def chat(request: ChatRequest) -> ChatResponse:
         await _persist_message(session, conv_id, "assistant", result["response"])
         await session.commit()
 
-    return ChatResponse(response=result["response"])
+    return ChatResponse(response=result["response"], conversation_id=conv_id)
+
+
+@router.get("/conversations/{conversation_id}/messages", response_model=list[MessageItem])
+async def get_conversation_messages(conversation_id: str, user_id: str = "") -> list[MessageItem]:
+    """Return all messages of a conversation ordered by time ascending.
+
+    Only the owner of the conversation may read it; other users get an empty list.
+    """
+    user_id = user_id or DEFAULT_USER_ID
+    messages = await get_messages(conversation_id, user_id)
+    return [
+        MessageItem(
+            role=m.role,
+            content=m.content,
+            created_at=m.created_at.isoformat() if m.created_at else "",
+        )
+        for m in messages
+    ]
 
 
 @router.post("/chat/stream")
@@ -97,7 +98,7 @@ async def chat_stream(request: ChatRequest) -> StreamingResponse:
         # Ensure a conversation/row exists before the run so approvals can be
         # scoped correctly, then run the agent with a live stream sink.
         async with AsyncSessionLocal() as session:
-            conversation = await _ensure_user_and_conversation(session, user_id)
+            conversation = await _ensure_user_and_conversation(session, user_id, request.conversation_id)
             conv_id = conversation.id
             await _persist_message(session, conv_id, "user", request.message)
             await session.commit()
@@ -180,7 +181,7 @@ async def chat_stream(request: ChatRequest) -> StreamingResponse:
             await _persist_message(session, conv_id, "assistant", assistant_text)
             await session.commit()
 
-        yield to_sse({"type": "done"})
+        yield to_sse({"type": "done", "conversation_id": conv_id})
 
     return StreamingResponse(
         event_generator(),
