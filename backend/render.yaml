@@ -1,0 +1,44 @@
+# Render deployment manifest for the FastAPI backend.
+# Deploys with `uv` instead of pip. Root Directory should be `backend`.
+#
+# How this works:
+#   - Render's Python runtime executes `buildCommand` and `startCommand`.
+#   - uv is installed on the fly, then used to create a venv and install deps
+#     from requirements.txt.
+#   - Alembic migrations run at build time so the container starts ready.
+#   - `$PORT` is injected by Render (free tier uses a dynamic port).
+
+services:
+  - type: web
+    name: paa-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: |
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+      export PATH="$HOME/.local/bin:$PATH"
+      uv venv --python 3.12
+      uv pip install -r requirements.txt
+      uv run alembic upgrade head
+    startCommand: |
+      export PATH="$HOME/.local/bin:$PATH"
+      uv run uvicorn app.main:app --host 0.0.0.0 --port "$PORT"
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DATABASE_URL
+        sync: false   # set in Render dashboard (Neon asyncpg URL with ?ssl=require)
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_BASE_URL
+        sync: false
+      - key: OPENAI_MODEL
+        sync: false
+      - key: EMBEDDING_BASE_URL
+        sync: false
+      - key: EMBEDDING_MODEL
+        sync: false
+      - key: JWT_SECRET
+        sync: false

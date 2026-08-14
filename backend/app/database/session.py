@@ -15,7 +15,12 @@ class Base(DeclarativeBase):
     """Declarative base for all ORM models."""
 
 
-engine = create_async_engine(settings.database_url, echo=False, future=True)
+engine = create_async_engine(
+    settings.database_url,
+    echo=False,
+    future=True,
+    pool_pre_ping=True,  # survive Neon idle/scale-to-zero reconnects
+)
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,

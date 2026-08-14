@@ -2408,3 +2408,13 @@ INFO:     Started server process [32670]
 INFO:     Waiting for application startup.
 {"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-13T10:50:17.064944Z"}
 INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/database/session.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+{"event": "shutting_down", "level": "info", "timestamp": "2026-08-14T02:03:57.082882Z"}
+INFO:     Application shutdown complete.
+INFO:     Finished server process [32670]
+INFO:     Started server process [43752]
+INFO:     Waiting for application startup.
+{"event": "starting_personal_ai_assistant", "level": "info", "timestamp": "2026-08-14T02:03:59.162544Z"}
+INFO:     Application startup complete.
