@@ -306,7 +306,9 @@ async function authRequest<T>(path: string): Promise<T> {
   if (res.status === 401) {
     // Try to obtain a fresh dev token, then retry once.
     try {
-      const t = await request<{ access_token: string }>("/api/v1/admin/token");
+      const t = await request<{ access_token: string }>("/api/v1/admin/token", {
+        method: "POST",
+      });
       setAdminToken(t.access_token);
       const retry = await fetch(`${API_BASE_URL}${path}`, {
         headers: { Authorization: `Bearer ${t.access_token}` },
@@ -412,7 +414,8 @@ export const apiClient = {
   },
   listDocuments: () => request<Document[]>("/api/v1/knowledge/documents"),
   // ----- Admin observability -----
-  obtainAdminToken: () => request<{ access_token: string }>("/api/v1/admin/token"),
+  obtainAdminToken: () =>
+    request<{ access_token: string }>("/api/v1/admin/token", { method: "POST" }),
   listRuns: (limit = 50, offset = 0, status?: string) =>
     authRequest<RunListResponse>(
       `/api/v1/admin/runs?limit=${limit}&offset=${offset}${status ? `&status=${status}` : ""}`
