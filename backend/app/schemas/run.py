@@ -30,7 +30,9 @@ class RunSummary(BaseModel):
     input_tokens: int = 0
     output_tokens: int = 0
     total_tokens: int = 0
-    estimated_cost_usd: float = 0.0
+    estimated_cost_usd: Optional[float] = None
+    model: Optional[str] = None
+    usage_available: bool = True
 
 
 class TraceEventView(BaseModel):
@@ -74,7 +76,9 @@ class RunDetail(BaseModel):
     input_tokens: int = 0
     output_tokens: int = 0
     total_tokens: int = 0
-    estimated_cost_usd: float = 0.0
+    estimated_cost_usd: Optional[float] = None
+    model: Optional[str] = None
+    usage_available: bool = True
 
     timeline: list[TraceEventView] = []
     tool_calls_detail: list[ToolCallView] = []

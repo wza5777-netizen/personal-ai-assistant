@@ -3,7 +3,6 @@ from pydantic import BaseModel, Field
 
 
 class ChatRequest(BaseModel):
-    user_id: str = Field(default="", description="ID of the requesting user")
     message: str = Field(..., description="User message text")
     conversation_id: str | None = Field(
         default=None, description="Existing conversation to append to (optional)"

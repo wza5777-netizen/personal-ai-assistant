@@ -35,7 +35,9 @@ def _summarize(run, metric) -> RunSummary:
         input_tokens=metric.input_tokens if metric else 0,
         output_tokens=metric.output_tokens if metric else 0,
         total_tokens=metric.total_tokens if metric else 0,
-        estimated_cost_usd=round(metric.estimated_cost_usd, 6) if metric else 0.0,
+        estimated_cost_usd=round(metric.estimated_cost_usd, 6) if metric and metric.estimated_cost_usd is not None else None,
+        model=metric.model if metric else None,
+        usage_available=metric.usage_available if metric else True,
     )
 
 
@@ -53,12 +55,13 @@ async def list_runs(
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
     status: Optional[str] = Query(None, description="Filter by run status"),
+    conversation_id: Optional[str] = Query(None, description="Filter by conversation id"),
     _: dict = Depends(verify_admin_token),
     session: AsyncSession = Depends(get_session),
 ) -> RunListResponse:
     repo = RunRepository(session)
-    runs = await repo.list_runs(limit=limit, offset=offset, status=status)
-    total = await repo.count_runs(status=status)
+    runs = await repo.list_runs(limit=limit, offset=offset, status=status, conversation_id=conversation_id)
+    total = await repo.count_runs(status=status, conversation_id=conversation_id)
     summaries = []
     for run in runs:
         metric = await repo.get_metric(run.id)
@@ -130,7 +133,9 @@ async def get_run(
         input_tokens=metric.input_tokens if metric else 0,
         output_tokens=metric.output_tokens if metric else 0,
         total_tokens=metric.total_tokens if metric else 0,
-        estimated_cost_usd=round(metric.estimated_cost_usd, 6) if metric else 0.0,
+        estimated_cost_usd=round(metric.estimated_cost_usd, 6) if metric and metric.estimated_cost_usd is not None else None,
+        model=metric.model if metric else None,
+        usage_available=metric.usage_available if metric else True,
         timeline=timeline,
         tool_calls_detail=tool_calls_detail,
     )

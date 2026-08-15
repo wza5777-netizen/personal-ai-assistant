@@ -6,8 +6,17 @@ tool creates an Approval row and pauses the agent via ApprovalRequired.
 """
 from unittest.mock import MagicMock
 
+import os
+
 import pytest
 from langchain_core.messages import AIMessage, AIMessageChunk, HumanMessage, ToolMessage
+
+# The approval flow drives the agent + repository stack against the application's
+# DB layer. Skip when the offline SQLite auth suite is active (DATABASE_URL=sqlite).
+pytestmark = pytest.mark.skipif(
+    "sqlite" in os.environ.get("DATABASE_URL", ""),
+    reason="requires live PostgreSQL",
+)
 
 from app.agents.graph import _token_from_chunk, invoke_agent
 from app.context.stream import emit, set_stream_sink, to_sse

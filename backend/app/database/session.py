@@ -15,12 +15,18 @@ class Base(DeclarativeBase):
     """Declarative base for all ORM models."""
 
 
-engine = create_async_engine(
-    settings.database_url,
-    echo=False,
-    future=True,
-    pool_pre_ping=True,  # survive Neon idle/scale-to-zero reconnects
-)
+# Pool-sizing args only apply to server-style databases (postgres). SQLite and
+# in-memory URLs reject them, so gate them behind the URL scheme.
+_engine_kwargs = dict(echo=False, future=True, pool_pre_ping=True)
+if "sqlite" not in settings.database_url:
+    _engine_kwargs.update(
+        pool_size=10,
+        max_overflow=20,
+        pool_timeout=15,  # fail fast instead of hanging (was ~65s when pool exhausted)
+        pool_recycle=1800,  # recycle connections every 30 min
+    )
+
+engine = create_async_engine(settings.database_url, **_engine_kwargs)
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,

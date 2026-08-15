@@ -13,10 +13,19 @@ Run with a real DB:
 from __future__ import annotations
 
 import asyncio
+import os
 
 import pytest
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
+
+# These tests require a live PostgreSQL + pgvector + embedding endpoint. When the
+# suite is configured for the offline SQLite auth tests (DATABASE_URL points at
+# sqlite), skip them instead of failing.
+pytestmark = pytest.mark.skipif(
+    "sqlite" in os.environ.get("DATABASE_URL", ""),
+    reason="requires live PostgreSQL + pgvector",
+)
 
 from app.database.session import engine
 from app.infrastructure.embedding import embed_text

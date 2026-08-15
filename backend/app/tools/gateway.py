@@ -5,7 +5,12 @@ audit, and enforces a human-approval gate for ``HIGH`` risk tools: when such a
 tool is requested, an :class:`Approval` row is created and an
 :class:`ApprovalRequired` exception is raised to pause the agent until a human
 approves or rejects the request.
+
+Every tool execution is bounded by :data:`TOOL_TIMEOUT_SECONDS` so a slow or
+hung tool can never stall the agent run; on timeout the gateway returns a safe
+error string (never raises), preserving the existing ``execute_tool`` contract.
 """
+import asyncio
 import json
 import time
 from contextvars import ContextVar
@@ -24,6 +29,11 @@ from app.tools.registry import ToolRegistry, registry as default_registry
 #: so the gateway can persist approval requests without threading the session
 #: through every node call.
 _db_session: ContextVar[Optional[AsyncSession]] = ContextVar("db_session", default=None)
+
+#: Maximum wall-clock time (seconds) a single tool execution may take. Tools
+#: that exceed this bound are cancelled and surface a ``tool_timeout`` error
+#: instead of stalling the agent run. Centralized here so it is easy to tune.
+TOOL_TIMEOUT_SECONDS = 10
 
 
 def set_db_session(session: Optional[AsyncSession]) -> None:
@@ -90,11 +100,16 @@ class ToolGateway:
                         user_id=user_id,
                     )
                     raise ApprovalRequired(approval)
-                result = await tool.execute(arguments or {}, user_id=user_id)
+                result = await self._run_with_timeout(tool, arguments, user_id, tool_name)
             else:
-                result = await tool.execute(arguments or {}, user_id=user_id)
+                result = await self._run_with_timeout(tool, arguments, user_id, tool_name)
         except ApprovalRequired:
             raise
+        except asyncio.TimeoutError:
+            # Should not normally reach here (helper swallows timeouts), but be
+            # defensive so a timeout can never crash the agent.
+            logger.error("tool_timeout_outer", tool=tool_name, timeout=TOOL_TIMEOUT_SECONDS)
+            result = "Error: tool timeout"
         except Exception as exc:  # noqa: BLE001 - gateway must not crash the agent
             result = f"Error executing tool '{tool_name}': {exc}"
         duration_ms = (time.perf_counter() - start) * 1000.0
@@ -106,6 +121,33 @@ class ToolGateway:
             result=result,
         )
         return result
+
+    async def _run_with_timeout(
+        self,
+        tool: BaseTool,
+        arguments: dict,
+        user_id: str,
+        tool_name: str,
+    ) -> str:
+        """Execute a tool bounded by :data:`TOOL_TIMEOUT_SECONDS`.
+
+        Works for both ``async`` and ``sync`` tool implementations (``sync``
+        tools are still invoked through the ``async def execute`` interface).
+        On timeout the task is cancelled and a safe ``"Error: tool timeout"``
+        string is returned so the agent run continues; no exception escapes.
+        """
+        try:
+            return await asyncio.wait_for(
+                tool.execute(arguments or {}, user_id=user_id),
+                timeout=TOOL_TIMEOUT_SECONDS,
+            )
+        except asyncio.TimeoutError:
+            logger.error(
+                "tool_timeout",
+                tool=tool_name,
+                timeout=TOOL_TIMEOUT_SECONDS,
+            )
+            return "Error: tool timeout"
 
 
 # Singleton gateway.

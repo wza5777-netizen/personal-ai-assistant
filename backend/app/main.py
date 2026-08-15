@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import api_router
+from app.api.middleware.error_handling import register_error_handling
 from app.config import settings
 from app.database.session import init_db
 from app.observability import configure_logging, logger
@@ -13,10 +14,16 @@ from app.observability import configure_logging, logger
 # (comma-separated). Set CORS_ORIGINS in production to include the deployed
 # frontend and API domains, e.g.
 #   https://your-frontend.onrender.com,https://personal-ai-assistant-l97e.onrender.com
+#
+# The deployed frontend origin is pinned here so cross-origin Bearer auth works
+# in production. We use an explicit origin list + allow_credentials=True (NOT
+# "*" + credentials, which browsers reject and which is unsafe). Authorization is
+# implicitly allowed because allow_headers=["*"] covers it.
 _extra_origins = [o.strip() for o in (settings.cors_origins or "").split(",") if o.strip()]
 ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://personal-ai-assistant-web-a1lt.onrender.com",
     *_extra_origins,
 ]
 
@@ -45,6 +52,10 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
+
+# Production error-handling layer: request-id middleware + global exception
+# handlers. Intentionally does not touch streaming / LangGraph / tools.
+register_error_handling(app)
 
 
 @app.get("/")

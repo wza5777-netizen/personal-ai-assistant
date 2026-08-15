@@ -22,7 +22,13 @@ EMBEDDING_DIM = 2048
 def _client() -> OpenAI:
     if not settings.embedding_base_url:
         raise ValueError("EMBEDDING_BASE_URL is not configured")
-    return OpenAI(base_url=settings.embedding_base_url, api_key=settings.openai_api_key)
+    return OpenAI(
+        base_url=settings.embedding_base_url,
+        api_key=settings.openai_api_key,
+        # Reliability: bound each request and retry transient failures.
+        timeout=30,
+        max_retries=2,
+    )
 
 
 def embed_text(text: str) -> list[float]:

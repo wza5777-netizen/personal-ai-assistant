@@ -59,6 +59,49 @@ def _token_from_chunk(chunk) -> str | None:
     return None
 
 
+def _usage_from_message(message) -> tuple[int, int] | None:
+    """Extract (input_tokens, output_tokens) from a LangChain message.
+
+    ``usage_metadata`` is the canonical LangChain field; in streaming it is
+    usually only attached to the final chunk / the ``on_chat_model_end`` output.
+    It may be a dict or a pydantic-style object depending on the LangChain
+    version. Returns ``None`` when the provider did not report any usage.
+    """
+    if message is None:
+        return None
+    usage = getattr(message, "usage_metadata", None)
+    if not usage:
+        return None
+    # Support both dict and attribute-style access.
+    if isinstance(usage, dict):
+        in_t = usage.get("input_tokens")
+        out_t = usage.get("output_tokens")
+    else:
+        in_t = getattr(usage, "input_tokens", None)
+        out_t = getattr(usage, "output_tokens", None)
+    if in_t is None and out_t is None:
+        return None
+    return (int(in_t or 0), int(out_t or 0))
+
+
+def _model_from_chunk(chunk) -> str | None:
+    """Best-effort model name from a streamed chunk's response metadata."""
+    if chunk is None:
+        return None
+    meta = getattr(chunk, "response_metadata", None) or {}
+    return (meta.get("model") or meta.get("model_name")) if isinstance(meta, dict) else None
+
+
+def _model_from_message(message) -> str | None:
+    """Best-effort model name from a completed message's response metadata."""
+    if message is None:
+        return None
+    meta = getattr(message, "response_metadata", None) or {}
+    if isinstance(meta, dict):
+        return meta.get("model") or meta.get("model_name")
+    return None
+
+
 def _build_llm() -> ChatOpenAI:
     llm = ChatOpenAI(
         model=settings.openai_model,
@@ -67,6 +110,9 @@ def _build_llm() -> ChatOpenAI:
         temperature=0.7,
         # Disable thinking mode on Volcano Ark (Doubao-Seed) models.
         extra_body={"thinking": {"type": "disabled"}},
+        # Reliability: bound each request and retry transient failures.
+        timeout=60,
+        max_retries=3,
     )
     schemas = registry.tool_schemas()
     if schemas:
@@ -258,6 +304,17 @@ async def invoke_agent(
         return ""
 
     try:
+        # Real token usage is captured here (not estimated, not a second call).
+        # In streaming mode, ``usage_metadata`` is typically only attached to the
+        # FINAL model output chunk / the ``on_chat_model_end`` event. We therefore
+        # accumulate it from the stream rather than relying on a single message.
+        input_tokens = 0
+        output_tokens = 0
+        usage_seen = False
+        # The actual model serving this run, taken from the live LLM config
+        # (never hard-coded). Provider may also report it in response_metadata.
+        model_name = settings.openai_model or None
+
         # Drive the graph with native event streaming: each LLM text chunk is
         # forwarded as a ``token`` event immediately. Tool-calling turns have
         # empty content and/or tool_call_chunks, so they are excluded here and
@@ -265,16 +322,53 @@ async def invoke_agent(
         async for stream_event in agent_app.astream_events(
             initial_state, config=config, version="v2"
         ):
-            if stream_event.get("event") == "on_chat_model_stream":
+            event_type = stream_event.get("event")
+            if event_type == "on_chat_model_stream":
                 chunk = stream_event["data"]["chunk"]
+                # Capture model name if the provider surfaces it on a chunk.
+                if model_name is None:
+                    model_name = _model_from_chunk(chunk) or model_name
                 token = _token_from_chunk(chunk)
                 if token:
                     await emit("token", {"content": token})
+            elif event_type == "on_chat_model_end":
+                # usage_metadata reliably lives on the end event's output. The
+                # agent may do several LLM turns (tool-calling loop), so we
+                # accumulate usage across all of them.
+                output = stream_event.get("data", {}).get("output")
+                captured = _usage_from_message(output)
+                if captured is not None:
+                    turn_in, turn_out = captured
+                    input_tokens += turn_in
+                    output_tokens += turn_out
+                    usage_seen = True
+                # Some providers also put the model in response_metadata.
+                meta_model = _model_from_message(output)
+                if meta_model:
+                    model_name = meta_model
 
         snapshot = await agent_app.aget_state(config)
         values = snapshot.values or {}
         approval_id = values.get("approval_id")
         text = _final_text(values)
+
+        # Persist real token usage + model-aware cost for observability.
+        # If usage_metadata was never returned, explicitly mark it unavailable
+        # (distinct from a genuine 0-token count) instead of faking data.
+        if usage_seen:
+            await tracking.record_llm_call(
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                model=model_name,
+                usage_available=True,
+            )
+        else:
+            await tracking.record_llm_call(
+                input_tokens=0,
+                output_tokens=0,
+                model=model_name,
+                usage_available=False,
+            )
 
         if approval_id:
             await emit(

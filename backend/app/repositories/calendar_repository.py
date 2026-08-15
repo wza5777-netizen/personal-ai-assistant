@@ -31,7 +31,11 @@ class CalendarRepository:
             status=status,
         )
         self.session.add(event)
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise
         await self.session.refresh(event)
         return event
 
@@ -76,7 +80,11 @@ class CalendarRepository:
             event.end_time = end_time
         if status is not None:
             event.status = status
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise
         await self.session.refresh(event)
         return event
 

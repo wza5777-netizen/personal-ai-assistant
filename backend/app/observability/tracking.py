@@ -24,10 +24,43 @@ _db_session: ContextVar[Optional[AsyncSession]] = ContextVar("obs_db_session", d
 #: Active run id for the current run (mirrors context.stream run id).
 _run_id: ContextVar[Optional[str]] = ContextVar("obs_run_id", default=None)
 
-# Estimated per-1K-token cost for the configured model (USD). Used for a rough
-# cost estimate; override via settings if a different model is used.
-_EST_INPUT_COST_PER_1K = 0.0005
-_EST_OUTPUT_COST_PER_1K = 0.0015
+# ---------------------------------------------------------------------------
+# Model-aware cost calculation.
+# Prices come from the shared Settings (MODEL_PRICING env var), expressed as
+# USD per 1M tokens. Unknown models yield ``None`` (cost "unavailable") rather
+# than being guessed from another model's price.
+# ---------------------------------------------------------------------------
+def _load_pricing() -> dict[str, dict[str, float]]:
+    """Load the MODEL_PRICING map from settings (cached per process)."""
+    from app.config import parse_model_pricing, settings
+
+    return parse_model_pricing(settings.model_pricing)
+
+
+def _price_for(model: str | None) -> dict[str, float] | None:
+    if not model:
+        return None
+    return _load_pricing().get(model)
+
+
+def compute_cost(
+    *,
+    model: str | None,
+    input_tokens: int,
+    output_tokens: int,
+) -> float | None:
+    """Compute USD cost for a model given token counts.
+
+    Returns ``None`` when the model is unknown (no configured pricing) or when
+    no model is given. Distinct from ``0.0`` (which means genuinely free).
+    """
+    price = _price_for(model)
+    if price is None:
+        return None
+    in_per_1m = price["input_per_1m"]
+    out_per_1m = price["output_per_1m"]
+    cost = (input_tokens / 1_000_000.0) * in_per_1m + (output_tokens / 1_000_000.0) * out_per_1m
+    return round(cost, 8)
 
 
 def set_run_context(*, session: AsyncSession, run_id: str) -> None:
@@ -99,22 +132,56 @@ async def record_event(
     )
 
 
-async def record_llm_call(*, input_tokens: int = 0, output_tokens: int = 0, model: str | None = None) -> None:
-    """Increment LLM call count and token usage for the active run."""
+async def record_llm_call(
+    *,
+    input_tokens: int = 0,
+    output_tokens: int = 0,
+    model: str | None = None,
+    usage_available: bool = True,
+) -> None:
+    """Increment LLM call count and record token usage + cost for the run.
+
+    ``usage_available`` marks whether the provider actually returned token usage.
+    When ``False`` the token counts are absent and cost is reported as ``None``
+    (unavailable) — this is deliberately distinct from a genuine 0-token count.
+    Cost is model-aware and sourced from configured pricing; unknown models
+    also yield ``None``.
+    """
     repo = _repo()
     run_id = _run_id.get()
     if repo is None or run_id is None:
         return
     await repo.increment_metric(run_id, llm_calls=1)
-    if input_tokens or output_tokens:
-        cost = (input_tokens / 1000.0) * _EST_INPUT_COST_PER_1K + (output_tokens / 1000.0) * _EST_OUTPUT_COST_PER_1K
+    if usage_available and (input_tokens or output_tokens):
+        cost = compute_cost(model=model, input_tokens=input_tokens, output_tokens=output_tokens)
         await repo.set_metric_tokens(
             run_id,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             estimated_cost_usd=cost,
+            model=model,
+            usage_available=True,
         )
-    await record_event("llm_end", details={"input_tokens": input_tokens, "output_tokens": output_tokens, "model": model})
+    else:
+        # No real usage: record the model name if known, but flag usage as
+        # unavailable and leave cost/pricing untouched (NULL).
+        await repo.set_metric_tokens(
+            run_id,
+            input_tokens=0,
+            output_tokens=0,
+            estimated_cost_usd=None,
+            model=model,
+            usage_available=False,
+        )
+    await record_event(
+        "llm_end",
+        details={
+            "input_tokens": input_tokens if usage_available else None,
+            "output_tokens": output_tokens if usage_available else None,
+            "model": model,
+            "usage_available": usage_available,
+        },
+    )
 
 
 async def record_tool_call(tool_name: str, *, arguments: dict[str, Any] | None = None) -> None:

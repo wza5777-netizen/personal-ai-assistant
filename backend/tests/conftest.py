@@ -1,12 +1,12 @@
-import pytest
+"""Pytest bootstrap.
 
+Redirect the database to a local SQLite file BEFORE any ``app.*`` module is
+imported so ``app.database.session.engine`` is built against SQLite (not the
+real Neon/Postgres). This keeps auth + isolation tests fully offline and avoids
+touching production columns that only exist after running Alembic migrations.
+"""
+import os
 
-@pytest.fixture(autouse=True)
-def _ensure_tools_registered():
-    """Make sure built-in tools are registered before each test."""
-    from app.tools import registry
-    from app.tools.current_time import CurrentTimeTool
-
-    if registry.get_tool("current_time") is None:
-        registry.register(CurrentTimeTool())
-    yield
+os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///./.test_auth_isolation.db"
+os.environ["JWT_SECRET"] = "test-secret-shared"
+os.environ["APP_ENV"] = "development"

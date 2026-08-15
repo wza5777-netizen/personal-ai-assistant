@@ -2,17 +2,33 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { apiClient, StreamEvent } from "./api-client";
+import { apiClient, RunInfo, StreamEvent, TraceEventView } from "./api-client";
+import { conversationKeyFor } from "./auth-storage";
 
 export interface ChatMessage {
   role: "user" | "assistant";
   content: string;
 }
 
-/** A node in the Agent execution timeline (tool calls, status changes, results). */
+/**
+ * A node in the Agent execution timeline. The same shape is produced both by
+ * the live SSE stream and by hydration from the persisted DB timeline, so the
+ * UI never maintains two event models.
+ */
+export type TimelineEventType =
+  | "agent_start"
+  | "llm_start"
+  | "llm_end"
+  | "tool_call"
+  | "tool_result"
+  | "memory_retrieval"
+  | "knowledge_retrieval"
+  | "agent_end"
+  | "error";
+
 export interface TimelineEntry {
   id: string;
-  type: "tool_call" | "tool_result" | "agent_start" | "agent_end" | "error";
+  type: TimelineEventType;
   tool_name?: string;
   arguments?: Record<string, unknown>;
   risk_level?: string;
@@ -22,6 +38,99 @@ export interface TimelineEntry {
   approval_id?: string;
   message?: string;
   timestamp?: number;
+}
+
+/**
+ * Convert a persisted DB trace event into the unified TimelineEntry model.
+ * This mirrors the SSE mapping in ``sseToTimelineEntry`` so both sources render
+ * identically.
+ */
+export function traceToTimelineEntry(ev: TraceEventView): TimelineEntry {
+  const details = (ev.details as Record<string, unknown>) ?? {};
+  let toolName = ev.tool_name ?? (typeof details["tool"] === "string" ? (details["tool"] as string) : undefined);
+  let riskLevel: string | undefined;
+  let argumentsPayload: Record<string, unknown> | undefined;
+  let result: unknown;
+  let message: string | undefined;
+
+  switch (ev.event_type) {
+    case "memory_retrieval":
+      toolName = "记忆检索";
+      message = `查询「${details["query"] ?? ""}」命中 ${details["hits"] ?? 0} 条`;
+      break;
+    case "knowledge_retrieval":
+      toolName = "知识库检索";
+      message = `查询「${details["query"] ?? ""}」命中 ${details["hits"] ?? 0} 条`;
+      break;
+    case "tool_call":
+      argumentsPayload = (details["arguments"] as Record<string, unknown>) ?? undefined;
+      riskLevel = typeof details["risk_level"] === "string" ? (details["risk_level"] as string) : undefined;
+      break;
+    case "tool_result": {
+      argumentsPayload = (details["arguments"] as Record<string, unknown>) ?? undefined;
+      const output = details["output_summary"];
+      result = output !== undefined ? output : argumentsPayload;
+      break;
+    }
+    case "error":
+      message = typeof details["message"] === "string" ? (details["message"] as string) : "执行出错";
+      break;
+    default:
+      break;
+  }
+
+  return {
+    id: `db-${ev.sequence}`,
+    type: ev.event_type as TimelineEventType,
+    tool_name: toolName,
+    arguments: argumentsPayload,
+    risk_level: riskLevel,
+    status: ev.status ?? undefined,
+    result,
+    message,
+    timestamp: ev.timestamp ? Date.parse(ev.timestamp) : undefined,
+  };
+}
+
+/**
+ * Convert a live SSE event into the unified TimelineEntry model. Extracted from
+ * the previous inline handling so hydration and streaming share one shape.
+ */
+export function sseToTimelineEntry(event: StreamEvent): Omit<TimelineEntry, "id"> {
+  switch (event.type) {
+    case "agent_start":
+      return { type: "agent_start", timestamp: event.timestamp };
+    case "tool_call":
+      return {
+        type: "tool_call",
+        tool_name: event.tool_name ?? "unknown",
+        arguments: event.arguments,
+        risk_level: event.risk_level,
+        tool_call_id: event.tool_call_id,
+        timestamp: event.timestamp,
+      };
+    case "tool_result":
+      return {
+        type: "tool_result",
+        tool_name: event.tool_name ?? "unknown",
+        tool_call_id: event.tool_call_id,
+        status: event.status,
+        result: event.result,
+        approval_id: event.approval_id,
+        timestamp: event.timestamp,
+      };
+    case "agent_end":
+      return {
+        type: "agent_end",
+        status: event.status,
+        approval_id: event.approval_id,
+        timestamp: event.timestamp,
+      };
+    case "error":
+      return { type: "error", message: event.message ?? "未知错误", timestamp: event.timestamp };
+    default:
+      return { type: "error" };
+  }
 }
 
 export type StreamingStatus = "idle" | "streaming" | "done" | "error";
@@ -44,7 +153,28 @@ function describeToolStatus(toolName?: string): string {
   return TOOL_STATUS_LABELS[toolName] ?? `正在使用工具 ${toolName}…`;
 }
 
-const CONVERSATION_ID_KEY = "conversation_id";
+const LEGACY_CONVERSATION_ID_KEY = "conversation_id";
+
+/**
+ * Resolve the conversation-storage key for the current user. The conversation
+ * id is treated as per-user client state so that User B never restores User A's
+ * chat after a logout/login. Falls back to the legacy shared key when no user
+ * is known yet (e.g. guest) — but in practice the chat route is only rendered
+ * for an authenticated user, so ``userId`` is always provided.
+ */
+function conversationKey(userId?: string | null): string {
+  return userId ? conversationKeyFor(userId) : LEGACY_CONVERSATION_ID_KEY;
+}
+
+function readConversationId(userId?: string | null): string | null {
+  if (typeof window === "undefined") return null;
+  return window.localStorage.getItem(conversationKey(userId));
+}
+
+function writeConversationId(userId: string | null | undefined, id: string): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(conversationKey(userId), id);
+}
 
 /**
  * Chat controller with three explicitly separated concerns:
@@ -53,8 +183,11 @@ const CONVERSATION_ID_KEY = "conversation_id";
  * - ``streamingStatus``: the current streaming lifecycle state
  * A ``token`` event updates only ``messages``; timeline events update only
  * ``agentTimeline``. They never share state.
+ *
+ * @param userId  current authenticated user id (for user-scoped conversation
+ *                persistence). Passed by the chat page from the auth context.
  */
-export function useChat() {
+export function useChat(userId?: string | null) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [agentTimeline, setAgentTimeline] = useState<TimelineEntry[]>([]);
@@ -63,25 +196,76 @@ export function useChat() {
   const [agentStatus, setAgentStatus] = useState("");
   // Persisted conversation id used across reloads (localStorage).
   const [conversationId, setConversationId] = useState<string | null>(null);
+  // Lightweight run info for the most recent restored run (shown above timeline).
+  const [runInfo, setRunInfo] = useState<RunInfo | null>(null);
+  // True when the timeline (observability) failed to load. Chat must still work.
+  const [timelineError, setTimelineError] = useState(false);
 
   // Maps tool_call_id -> timeline entry index so tool_result merges in place.
   const timelineIndexByCallId = useRef<Map<string, number>>(new Map());
 
-  // Load a conversation's messages into state. Used on mount to restore history.
+  // Restore the persisted Agent Timeline for a conversation from the DB.
+  // Failures here MUST NOT affect chat history loading (observability is a
+  // secondary, best-effort feature).
+  const loadTimeline = useCallback(async (convId: string) => {
+    try {
+      const list = await apiClient.getLatestRunForConversation(convId, 1);
+      const latest = list.runs?.[0];
+      if (!latest) {
+        setRunInfo(null);
+        setAgentTimeline([]);
+        setTimelineError(false);
+        return;
+      }
+      const detail = await apiClient.getRunTimeline(latest.run_id);
+      // Hydrate timeline from persisted trace events (ordered by sequence).
+      const entries = [...detail.timeline]
+        .sort((a, b) => a.sequence - b.sequence)
+        .map((ev) => traceToTimelineEntry(ev));
+      setAgentTimeline(entries);
+      setRunInfo({
+        run_id: detail.run_id,
+        status: detail.status,
+        latency_ms: detail.latency_ms,
+        model: detail.model,
+        input_tokens: detail.input_tokens,
+        output_tokens: detail.output_tokens,
+        total_tokens: detail.total_tokens,
+        estimated_cost_usd: detail.estimated_cost_usd,
+        usage_available: detail.usage_available,
+      });
+      setTimelineError(false);
+    } catch {
+      // Observability is auxiliary: keep chat usable, surface a soft error state.
+      setTimelineError(true);
+      setRunInfo(null);
+      setAgentTimeline([]);
+    }
+  }, []);
+
+  // Load a conversation's messages + Agent Timeline into state. Used on mount to
+  // restore history. The two loads run in parallel; a timeline failure is
+  // isolated and never blocks the chat messages.
   const loadConversation = useCallback(
     async (convId: string) => {
-      setConversationId(convId);
-      window.localStorage.setItem(CONVERSATION_ID_KEY, convId);
-      try {
-        const items = await apiClient.getConversationMessages(convId);
-        if (items.length > 0) {
-          setMessages(items.map((m) => ({ role: m.role, content: m.content })));
-        }
-      } catch {
+      const id = (convId ?? "").trim();
+      if (!id) return;
+      setConversationId(id);
+      writeConversationId(userId, id);
+      setTimelineError(false);
+      const [msgResult] = await Promise.allSettled([
+        apiClient.getConversationMessages(id).then((items) => {
+          if (items.length > 0) {
+            setMessages(items.map((m) => ({ role: m.role, content: m.content })));
+          }
+        }),
+        loadTimeline(id),
+      ]);
+      if (msgResult.status === "rejected") {
         // Ignore load failures; the conversation simply starts empty.
       }
     },
-    []
+    [loadTimeline]
   );
 
   // On mount: restore chat history so it survives a page refresh.
@@ -89,7 +273,7 @@ export function useChat() {
   // to the user's most recent conversation from the backend.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const savedId = window.localStorage.getItem(CONVERSATION_ID_KEY);
+    const savedId = readConversationId(userId);
     if (savedId) {
       loadConversation(savedId);
       return;
@@ -156,10 +340,13 @@ export function useChat() {
     (event: StreamEvent) => {
       switch (event.type) {
         case "agent_start":
-          // Reset timeline for a fresh run; chat keeps prior messages.
+          // Reset timeline for a fresh run; chat keeps prior messages. Also drop
+          // any hydrated run-info block from a previous (restored) run.
           setAgentTimeline([]);
+          setRunInfo(null);
+          setTimelineError(false);
           timelineIndexByCallId.current.clear();
-          addTimelineEntry({ type: "agent_start", timestamp: event.timestamp });
+          addTimelineEntry(sseToTimelineEntry(event));
           setAgentStatus("正在思考…");
           break;
         case "token":
@@ -170,34 +357,14 @@ export function useChat() {
           }
           break;
         case "tool_call":
-          addTimelineEntry({
-            type: "tool_call",
-            tool_name: event.tool_name ?? "unknown",
-            arguments: event.arguments,
-            risk_level: event.risk_level,
-            tool_call_id: event.tool_call_id,
-            timestamp: event.timestamp,
-          });
+          addTimelineEntry(sseToTimelineEntry(event));
           setAgentStatus(describeToolStatus(event.tool_name));
           break;
         case "tool_result":
-          addTimelineEntry({
-            type: "tool_result",
-            tool_name: event.tool_name ?? "unknown",
-            tool_call_id: event.tool_call_id,
-            status: event.status,
-            result: event.result,
-            approval_id: event.approval_id,
-            timestamp: event.timestamp,
-          });
+          addTimelineEntry(sseToTimelineEntry(event));
           break;
-        case "agent_end":
-          addTimelineEntry({
-            type: "agent_end",
-            status: event.status,
-            approval_id: event.approval_id,
-            timestamp: event.timestamp,
-          });
+        case "agent_end": {
+          addTimelineEntry(sseToTimelineEntry(event));
           if (event.status === "awaiting_approval" && event.approval_id) {
             appendToken(
               `\n\n⏸️ 已暂停：正在等待您批准高风险工具调用（approval_id=${event.approval_id}）。请前往「审批」页面处理。`
@@ -207,19 +374,16 @@ export function useChat() {
             setAgentStatus("");
           }
           break;
+        }
         case "error":
-          addTimelineEntry({
-            type: "error",
-            message: event.message ?? "未知错误",
-            timestamp: event.timestamp,
-          });
+          addTimelineEntry(sseToTimelineEntry(event));
           setAgentStatus("出错了，请重试");
           break;
         case "done":
           // Persist the conversation id returned by the backend so history can
           // be restored after a page refresh.
           if (event.conversation_id) {
-            window.localStorage.setItem(CONVERSATION_ID_KEY, event.conversation_id);
+            writeConversationId(userId, event.conversation_id);
             setConversationId(event.conversation_id);
           }
           break;
@@ -264,5 +428,7 @@ export function useChat() {
     agentTimeline,
     streamingStatus,
     agentStatus,
+    runInfo,
+    timelineError,
   };
 }

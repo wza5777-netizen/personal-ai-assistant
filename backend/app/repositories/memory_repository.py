@@ -37,7 +37,11 @@ class MemoryRepository:
             embedding=embedding,
         )
         self.session.add(memory)
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise
         await self.session.refresh(memory)
         return memory
 
@@ -104,4 +108,8 @@ class MemoryRepository:
         if memory is None:
             return
         memory.embedding = embedding
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise

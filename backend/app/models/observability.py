@@ -1,8 +1,9 @@
 """Observability models: agent runs, trace events, and aggregated run metrics."""
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import (
     BigInteger,
+    Boolean,
     DateTime,
     Float,
     ForeignKey,
@@ -49,7 +50,7 @@ class AgentRun(Base):
 
     def finish(self, status: str, *, final_response: str | None = None, error: str | None = None) -> None:
         self.status = status
-        self.finished_at = datetime.now()
+        self.finished_at = datetime.now(timezone.utc)
         if final_response is not None:
             self.final_response = final_response
         if error is not None:
@@ -110,4 +111,13 @@ class RunMetric(Base):
     total_tokens: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
 
     # Estimated USD cost for the run.
-    estimated_cost_usd: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
+    # NULL means "unavailable" (provider didn't return usage, or the model has
+    # no configured pricing). This is deliberately distinct from 0.0.
+    estimated_cost_usd: Mapped[float | None] = mapped_column(Float, default=None, nullable=True)
+
+    # The actual model that served the LLM calls for this run (e.g. gpt-4o-mini).
+    model: Mapped[str | None] = mapped_column(String(128), nullable=True)
+
+    # Whether the provider returned real token usage for this run.
+    # False => token counts are absent (NOT the same as 0 tokens).
+    usage_available: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)

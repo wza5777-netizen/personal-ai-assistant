@@ -1,6 +1,9 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useChat } from "@/lib/use-chat";
+import { useAuth } from "@/lib/auth-context";
 
 function riskBadge(risk?: string) {
   if (risk === "high") {
@@ -35,7 +38,62 @@ function statusBadge(status?: string) {
   );
 }
 
+function runInfoBlock(runInfo: import("@/lib/api-client").RunInfo | null) {
+  if (!runInfo) return null;
+  const costLabel =
+    runInfo.estimated_cost_usd != null
+      ? `$${runInfo.estimated_cost_usd.toFixed(4)}`
+      : runInfo.usage_available
+        ? "Cost unavailable"
+        : "Token usage unavailable";
+  const tokenLabel = runInfo.usage_available
+    ? `${runInfo.input_tokens}↑ / ${runInfo.output_tokens}↓`
+    : "Token usage unavailable";
+  return (
+    <div className="mb-3 rounded-lg border border-white/10 bg-white/5 p-2 text-[11px] text-gray-300">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span className="font-medium text-gray-200">最近运行</span>
+        {statusBadge(runInfo.status)}
+        {runInfo.model && (
+          <span className="rounded bg-sky-500/20 px-1.5 py-0.5 text-[10px] text-sky-300">
+            {runInfo.model}
+          </span>
+        )}
+        {runInfo.latency_ms != null && <span>⏱ {runInfo.latency_ms}ms</span>}
+        <span title="input / output tokens">🔢 {tokenLabel}</span>
+        <span title="estimated cost">💲 {costLabel}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function ChatPage() {
+  const { isLoading, isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+
+  // Route protection: while restoring auth state, show a neutral loading state;
+  // if not authenticated, send the user to /login BEFORE rendering any chat UI
+  // (so we never briefly show (and never hit the API as) a guest).
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [isLoading, isAuthenticated, router]);
+
+  if (isLoading) {
+    return (
+      <p className="py-20 text-center text-sm text-gray-400">正在验证身份…</p>
+    );
+  }
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  return <ChatView onLogout={logout} />;
+}
+
+function ChatView({ onLogout }: { onLogout: () => void }) {
+  const { user } = useAuth();
   const {
     messages,
     input,
@@ -44,15 +102,39 @@ export default function ChatPage() {
     agentTimeline,
     streamingStatus,
     agentStatus,
-  } = useChat();
+    runInfo,
+    timelineError,
+  } = useChat(user?.id);
   const streaming = streamingStatus === "streaming";
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  // Auto-scroll to the newest message whenever the message list changes.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [messages]);
   // True while the last message is the assistant reply being generated.
   const generating =
     streaming && messages.length > 0 && messages[messages.length - 1].role === "assistant";
 
+  function handleLogout() {
+    onLogout();
+    if (typeof window !== "undefined") {
+      window.location.assign("/login");
+    }
+  }
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">对话</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">对话</h1>
+        <button
+          onClick={handleLogout}
+          className="rounded-lg border border-white/10 px-3 py-1.5 text-sm text-gray-300 hover:text-white"
+        >
+          退出登录
+        </button>
+      </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
         {/* Conversation column */}
@@ -63,7 +145,10 @@ export default function ChatPage() {
             </div>
           )}
 
-          <div className="space-y-3 rounded-lg border border-white/10 p-4">
+          <div
+            ref={scrollRef}
+            className="max-h-[70vh] space-y-3 overflow-y-auto rounded-lg border border-white/10 p-4"
+          >
             {messages.length === 0 && (
               <p className="text-sm text-gray-500">暂无消息，来打个招呼吧！</p>
             )}
@@ -136,10 +221,16 @@ export default function ChatPage() {
           <h2 className="text-sm font-semibold text-gray-300">
             Agent 执行 Timeline
           </h2>
+          {runInfoBlock(runInfo)}
           <div className="max-h-[70vh] space-y-2 overflow-y-auto rounded-lg border border-white/10 p-3">
-            {agentTimeline.length === 0 && (
+            {timelineError && (
+              <p className="text-xs text-amber-300/80">
+                执行记录暂不可用（Trace 服务异常），聊天不受影响。
+              </p>
+            )}
+            {!timelineError && agentTimeline.length === 0 && (
               <p className="text-xs text-gray-500">
-                运行 Agent 后，这里会实时展示工具调用、状态变化与执行结果。
+                运行 Agent 后，这里会实时展示工具调用、状态变化与执行结果；刷新页面也会自动恢复上一次运行的记录。
               </p>
             )}
             {agentTimeline.map((entry) => (

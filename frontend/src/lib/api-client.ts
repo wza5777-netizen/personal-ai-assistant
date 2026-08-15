@@ -3,10 +3,25 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 
+// ---------- Auth types (aligned with backend app/schemas/user.py) ----------
+export interface User {
+  id: string;
+  email: string;
+  // Backend UserOut currently omits display_name; kept optional for forward
+  // compatibility if the schema gains it later. Never relied upon for auth.
+  display_name?: string;
+  created_at: string;
+}
+
+export interface AuthResponse {
+  access_token: string;
+  token_type: string;
+  user: User;
+}
+
 export interface ChatRequest {
-  // NOTE: user identity is resolved server-side (DEFAULT_USER_ID); the client
-  // no longer sends/controls user_id. Kept optional only for backward compat.
-  user_id?: string;
+  // User identity is resolved server-side from the Bearer JWT. The client
+  // MUST NOT send/control user_id — it is intentionally absent.
   message: string;
   conversation_id?: string | null;
 }
@@ -119,19 +134,64 @@ export interface Memory {
   updated_at: string;
 }
 
+// Centralized, SSR-safe access to the user access token. All token reads go
+// through auth-storage so the underlying storage strategy (localStorage vs a
+// future Secure HttpOnly Cookie) can be swapped in one place.
+import { getAccessToken, clearUserLocalState } from "./auth-storage";
+
+/**
+ * Unauthorized handler. Registered by the AuthProvider so that, on a 401, the
+ * API client can clear user state and drop the app back to the login screen
+ * without importing the auth context directly (avoids circular deps + SSR
+ * `window` access inside this module).
+ */
+let onUnauthorized: (() => void) | null = null;
+export function setUnauthorizedHandler(handler: (() => void) | null): void {
+  onUnauthorized = handler;
+}
+
 async function request<T>(
   path: string,
   options?: RequestInit
 ): Promise<T> {
+  // Attach the Bearer token for every protected call. The backend resolves the
+  // user identity from this header; the client never sends user_id.
+  const token = getAccessToken();
+  const headers = new Headers(options?.headers);
+  if (!headers.has("Content-Type")) headers.set("Content-Type", "application/json");
+  if (token) headers.set("Authorization", `Bearer ${token}`);
+
   const res = await fetch(`${API_BASE_URL}${path}`, {
-    headers: { "Content-Type": "application/json" },
     ...options,
+    headers,
   });
+  if (res.status === 401) {
+    // Clear token + user client state; let Auth State go unauthenticated so the
+    // app redirects to /login. Guarded to avoid infinite retry loops.
+    clearUserLocalState();
+    onUnauthorized?.();
+    throw new Error(`Unauthorized: ${res.status} ${res.statusText}`);
+  }
   if (!res.ok) {
     throw new Error(`Request failed: ${res.status} ${res.statusText}`);
   }
   return res.json() as Promise<T>;
 }
+
+// ---------- Auth API ----------
+export const authApi = {
+  register: (email: string, password: string) =>
+    request<AuthResponse>("/api/v1/auth/register", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    }),
+  login: (email: string, password: string) =>
+    request<AuthResponse>("/api/v1/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    }),
+  getMe: () => request<User>("/api/v1/auth/me"),
+};
 
 export interface Document {
   id: number;
@@ -158,7 +218,12 @@ export interface RunSummary {
   input_tokens: number;
   output_tokens: number;
   total_tokens: number;
-  estimated_cost_usd: number;
+  // Null when cost is unavailable (unknown model price or no usage). Never 0
+  // used to mean "unavailable".
+  estimated_cost_usd: number | null;
+  model: string | null;
+  // Whether the provider returned real token usage for this run.
+  usage_available: boolean;
 }
 
 export interface RunListResponse {
@@ -185,6 +250,19 @@ export interface ToolCallView {
   result_ok: boolean | null;
 }
 
+/** Lightweight run info shown above the restored timeline. */
+export interface RunInfo {
+  run_id: string;
+  status: string;
+  latency_ms: number | null;
+  model: string | null;
+  input_tokens: number;
+  output_tokens: number;
+  total_tokens: number;
+  estimated_cost_usd: number | null;
+  usage_available: boolean;
+}
+
 export interface RunDetail {
   run_id: string;
   user_id: string;
@@ -202,7 +280,9 @@ export interface RunDetail {
   input_tokens: number;
   output_tokens: number;
   total_tokens: number;
-  estimated_cost_usd: number;
+  estimated_cost_usd: number | null;
+  model: string | null;
+  usage_available: boolean;
   timeline: TraceEventView[];
   tool_calls_detail: ToolCallView[];
 }
@@ -262,11 +342,23 @@ export const apiClient = {
     payload: ChatRequest,
     onEvent: (event: StreamEvent) => void
   ): Promise<void> => {
+    const token = getAccessToken();
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    if (token) headers.set("Authorization", `Bearer ${token}`);
+
     const res = await fetch(`${API_BASE_URL}/api/v1/chat/stream`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify(payload),
     });
+    // 401 on the SSE endpoint must NOT attempt to read the (non-existent)
+    // stream — just clear state and bail so we don't loop on re-auth.
+    if (res.status === 401) {
+      clearUserLocalState();
+      onUnauthorized?.();
+      throw new Error(`Unauthorized: ${res.status} ${res.statusText}`);
+    }
     if (!res.ok || !res.body) {
       throw new Error(`Stream failed: ${res.status} ${res.statusText}`);
     }
@@ -326,4 +418,15 @@ export const apiClient = {
       `/api/v1/admin/runs?limit=${limit}&offset=${offset}${status ? `&status=${status}` : ""}`
     ),
   getRun: (runId: string) => authRequest<RunDetail>(`/api/v1/admin/runs/${runId}`),
+  /** Fetch the most recent run for a conversation (newest first, limit=1). */
+  getLatestRunForConversation: (conversationId: string, limit = 1) =>
+    authRequest<RunListResponse>(
+      `/api/v1/admin/runs?conversation_id=${encodeURIComponent(conversationId)}&limit=${limit}&offset=0`
+    ),
+  /**
+   * Load a run's full timeline (events + metrics). The detail endpoint already
+   * embeds the complete ordered timeline, so we reuse it directly instead of a
+   * second request.
+   */
+  getRunTimeline: (runId: string) => authRequest<RunDetail>(`/api/v1/admin/runs/${runId}`),
 };

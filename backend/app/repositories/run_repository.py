@@ -26,7 +26,11 @@ class RunRepository:
         self.session.add(run)
         # Metrics row created eagerly so counters can be incremented cheaply.
         self.session.add(RunMetric(run_id=run_id))
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise
         await self.session.refresh(run)
         return run
 
@@ -39,6 +43,7 @@ class RunRepository:
         *,
         user_id: Optional[str] = None,
         status: Optional[str] = None,
+        conversation_id: Optional[str] = None,
         limit: int = 50,
         offset: int = 0,
     ) -> list[AgentRun]:
@@ -47,6 +52,8 @@ class RunRepository:
             stmt = stmt.where(AgentRun.user_id == user_id)
         if status is not None:
             stmt = stmt.where(AgentRun.status == status)
+        if conversation_id is not None:
+            stmt = stmt.where(AgentRun.conversation_id == conversation_id)
         stmt = stmt.order_by(AgentRun.started_at.desc()).limit(limit).offset(offset)
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
@@ -63,14 +70,22 @@ class RunRepository:
         if run is None:
             return
         run.finish(status, final_response=final_response, error=error)
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise
 
-    async def count_runs(self, *, user_id: Optional[str] = None, status: Optional[str] = None) -> int:
+    async def count_runs(
+        self, *, user_id: Optional[str] = None, status: Optional[str] = None, conversation_id: Optional[str] = None
+    ) -> int:
         stmt = select(func.count()).select_from(AgentRun)
         if user_id is not None:
             stmt = stmt.where(AgentRun.user_id == user_id)
         if status is not None:
             stmt = stmt.where(AgentRun.status == status)
+        if conversation_id is not None:
+            stmt = stmt.where(AgentRun.conversation_id == conversation_id)
         result = await self.session.execute(stmt)
         return int(result.scalar_one() or 0)
 
@@ -99,7 +114,11 @@ class RunRepository:
             status=status,
         )
         self.session.add(event)
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise
         return event
 
     async def list_events(self, run_id: str) -> list[TraceEvent]:
@@ -118,8 +137,14 @@ class RunRepository:
             metric = RunMetric(run_id=run_id)
             self.session.add(metric)
         for field, delta in updates.items():
-            setattr(metric, field, getattr(metric, field) + delta)
-        await self.session.commit()
+            # Treat a missing (None) current value as 0 so increments are safe.
+            current = getattr(metric, field)
+            setattr(metric, field, (current or 0) + delta)
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise
 
     async def set_metric_tokens(
         self,
@@ -127,7 +152,9 @@ class RunRepository:
         *,
         input_tokens: int = 0,
         output_tokens: int = 0,
-        estimated_cost_usd: float = 0.0,
+        estimated_cost_usd: float | None = None,
+        model: str | None = None,
+        usage_available: bool | None = None,
     ) -> None:
         metric = await self.get_metric(run_id)
         if metric is None:
@@ -136,5 +163,16 @@ class RunRepository:
         metric.input_tokens = metric.input_tokens + input_tokens
         metric.output_tokens = metric.output_tokens + output_tokens
         metric.total_tokens = metric.input_tokens + metric.output_tokens
-        metric.estimated_cost_usd = metric.estimated_cost_usd + estimated_cost_usd
-        await self.session.commit()
+        # Cost: None means "unavailable" and must NOT be added to an existing value.
+        # If both current and new are None, keep None; otherwise sum the numbers.
+        if estimated_cost_usd is not None:
+            metric.estimated_cost_usd = (metric.estimated_cost_usd or 0.0) + estimated_cost_usd
+        if model is not None:
+            metric.model = model
+        if usage_available is not None:
+            metric.usage_available = usage_available
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise

@@ -31,14 +31,29 @@ class ApprovalRepository:
             conversation_id=conversation_id,
         )
         self.session.add(approval)
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise
         await self.session.refresh(approval)
         return approval
 
-    async def get(self, approval_id: str) -> Optional[Approval]:
-        result = await self.session.execute(
-            select(Approval).where(Approval.id == approval_id)
-        )
+    async def get(
+        self, approval_id: str, user_id: Optional[str] = None
+    ) -> Optional[Approval]:
+        """Fetch an approval by id.
+
+        When ``user_id`` is provided, the result is additionally scoped to that
+        user (owner check). A mismatch returns ``None`` so callers can surface a
+        404 without disclosing whether the resource exists. When ``user_id`` is
+        omitted the original behaviour is preserved (used internally by the
+        agent tool gateway where the caller is already trusted).
+        """
+        stmt = select(Approval).where(Approval.id == approval_id)
+        if user_id is not None:
+            stmt = stmt.where(Approval.user_id == user_id)
+        result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
 
     async def list_pending(self, user_id: Optional[str] = None) -> list[Approval]:
@@ -68,6 +83,10 @@ class ApprovalRepository:
         from datetime import datetime
 
         approval.decided_at = datetime.now()
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except Exception:
+            await self.session.rollback()
+            raise
         await self.session.refresh(approval)
         return approval

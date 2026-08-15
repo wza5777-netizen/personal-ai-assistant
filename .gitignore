@@ -19,7 +19,8 @@ backend/evaluation/reports/*.json
 
 # Secrets / config
 .env
-.env.local
+.env.*
+!.env.example
 
 # IDE
 .idea/
@@ -33,3 +34,9 @@ backend/evaluation/reports/*.json
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+
+# Local databases
+*.db
+
+# Test files (not needed in PRD)
+backend/tests/

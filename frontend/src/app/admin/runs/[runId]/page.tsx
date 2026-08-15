@@ -115,7 +115,7 @@ export default function RunDetailPage({
             <Metric label="输入 Token" value={run.input_tokens} />
             <Metric label="输出 Token" value={run.output_tokens} />
             <Metric label="总 Token" value={run.total_tokens} />
-            <Metric label="预估成本" value={`$${run.estimated_cost_usd.toFixed(5)}`} />
+            <Metric label="预估成本" value={run.estimated_cost_usd != null ? `$${run.estimated_cost_usd.toFixed(5)}` : "—"} />
           </div>
 
           {run.error && (
