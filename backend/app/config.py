@@ -75,6 +75,19 @@ class Settings(BaseSettings):
     # being guessed from another model.
     model_pricing: str = ""
 
+    # --- GitHub official Remote MCP Server (read-only integration) ----------
+    # Enable the integration. Disabled by default; set to "true" to opt in.
+    github_mcp_enabled: bool = False
+    # Official remote endpoint. Default to GitHub's managed Streamable HTTP MCP.
+    github_mcp_url: str = "https://api.githubcopilot.com/mcp/"
+    # Personal Access Token used as a Bearer token. NEVER logged, NEVER committed.
+    github_mcp_token: str = ""
+    # Comma-separated toolset allow-list (remote server restricts by URL/header).
+    # Kept minimal & read-only: repos, issues, pull_requests.
+    github_mcp_toolsets: str = "repos,issues,pull_requests"
+    # Connection / request timeout (seconds) for the remote MCP calls.
+    github_mcp_timeout: float = 30.0
+
     @classmethod
     def settings_customise_sources(
         cls,

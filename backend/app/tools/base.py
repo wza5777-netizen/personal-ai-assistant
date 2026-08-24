@@ -18,6 +18,36 @@ class RiskLevel(str, Enum):
     HIGH = "high"
 
 
+class ToolResult:
+    """Unified result type returned by the Tool Gateway for every tool.
+
+    Both native tools and MCP tools normalize their outcome into this shape,
+    so the rest of the agent stack (and the adapter layer) never has to care
+    which provider produced the result.
+
+    Attributes:
+        ok: whether the tool executed successfully.
+        result: the tool payload on success (``None`` on failure).
+        error: a human-readable error message on failure (``None`` on success).
+    """
+
+    def __init__(self, ok: bool, result: object = None, error: str | None = None) -> None:
+        self.ok = ok
+        self.result = result
+        self.error = error
+
+    def __repr__(self) -> str:
+        if self.ok:
+            return f"ToolResult(ok=True, result={self.result!r})"
+        return f"ToolResult(ok=False, error={self.error!r})"
+
+    def to_string(self) -> str:
+        """Render the result as the string the gateway returns to the agent."""
+        if self.ok:
+            return str(self.result) if self.result is not None else ""
+        return f"Error: {self.error}"
+
+
 class BaseTool(ABC):
     """Unified interface that every agent tool must implement."""
 
@@ -29,6 +59,10 @@ class BaseTool(ABC):
     parameters: dict | None = None
     #: Risk classification driving the human-approval flow (defaults to ``low``).
     risk_level: RiskLevel = RiskLevel.LOW
+    #: Optional RBAC permission required to invoke this tool (defaults to ``None``
+    #: meaning no permission gate). Enforced by the Tool Gateway for both native
+    #: and MCP tools.
+    required_permission: str | None = None
 
     @abstractmethod
     async def execute(self, arguments: dict, user_id: str = "") -> str:
