@@ -138,26 +138,46 @@ class MCPToolRegistry:
         self._tools.clear()
 
     async def discover_tools(self) -> list[MCPToolDefinition]:
-        """Start every registered client and sync its tool list.
+        """Sync tool lists from every registered MCP client.
 
         For each server, ``client.list_tools()`` is queried and every returned
         :class:`MCPToolSpec` is mirrored into an :class:`MCPToolDefinition`. The
         registered tool ``name`` is prefixed with the server's ``tool_prefix``
-        (if any) to prevent collisions with native tools or other MCP servers,
-        and ``default_permission`` (if any) is applied as the RBAC gate. The
-        accumulated definitions are returned.
+        (if any) to prevent collisions, and ``default_permission`` (if any) is
+        applied as the RBAC gate.
+
+        Fault isolation: a failure in *one* server's ``list_tools()`` is logged
+        and skipped without aborting the others or rolling back already
+        discovered tools. This prevents a flaky server (e.g. a stdio subprocess
+        that died after an earlier discovery) from taking down discovery of
+        healthy servers such as the GitHub Remote MCP, which would otherwise
+        surface as ``unknown tool`` at runtime.
+
+        The tool catalog is rebuilt from scratch on every call so re-running
+        discovery (as the FastAPI lifespan does for each server) never leaves
+        stale entries and always reflects the current live clients.
         """
+        self._tools.clear()
         discovered: list[MCPToolDefinition] = []
         for client in self._clients.values():
-            prefix = self._tool_prefixes.get(client.server_name)
-            permission = self._default_permissions.get(client.server_name)
-            specs: list[MCPToolSpec] = await client.list_tools()
+            name = client.server_name
+            prefix = self._tool_prefixes.get(name)
+            permission = self._default_permissions.get(name)
+            try:
+                specs: list[MCPToolSpec] = await client.list_tools()
+            except Exception as exc:  # noqa: BLE001 - isolate this server
+                logger.error(
+                    "mcp_discover_failed",
+                    server_name=name,
+                    error_type=type(exc).__name__,
+                )
+                continue
             for spec in specs:
                 registered_name = f"{prefix}{spec.name}" if prefix else spec.name
                 definition = MCPToolDefinition(
                     name=registered_name,
                     description=spec.description,
-                    server_name=client.server_name,
+                    server_name=name,
                     required_permission=permission,
                     parameters=spec.input_schema,
                 )
