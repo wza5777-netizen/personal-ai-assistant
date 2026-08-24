@@ -291,6 +291,15 @@ async def invoke_agent(
         "当用户询问待办任务、未完成任务或任务状态时，必须先调用 list_tasks 工具查询，"
         "不要直接回答没有任务。"
     )
+    # When GitHub MCP is enabled, tell the agent the user's default GitHub
+    # account so it can resolve "my <repo>" references without asking for owner.
+    if settings.github_mcp_enabled and settings.github_default_owner:
+        base_system_prompt += (
+            f"\n用户默认的 GitHub 账号（owner）是 `{settings.github_default_owner}`。"
+            "当用户说\"我的 <仓库名>\"或\"我的 GitHub 仓库\"而未指明 owner 时，"
+            f"默认使用 `{settings.github_default_owner}` 作为仓库 owner，"
+            "直接调用相应的 github.* 工具查询，不要向用户追问 owner。"
+        )
     parts = [base_system_prompt]
     if context_prompt:
         parts.append(context_prompt)

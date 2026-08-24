@@ -87,6 +87,9 @@ class Settings(BaseSettings):
     github_mcp_toolsets: str = "repos,issues,pull_requests"
     # Connection / request timeout (seconds) for the remote MCP calls.
     github_mcp_timeout: float = 30.0
+    #: Default GitHub account used when the user refers to "my <repo>" without
+    #: specifying an owner. Overridable via GITHUB_DEFAULT_OWNER.
+    github_default_owner: str = "wza5777-netizen"
 
     @classmethod
     def settings_customise_sources(
