@@ -39,6 +39,7 @@ from app.tools import memory_tool  # noqa: F401  (registers memory tools)
 from app.tools import task_tool  # noqa: F401  (registers create_task)
 from app.tools.base import RiskLevel
 from app.tools.registry import registry
+from app.mcp.registry import mcp_registry
 
 checkpointer = MemorySaver()
 USER_ID = "default-user"
@@ -115,6 +116,12 @@ def _build_llm() -> ChatOpenAI:
         max_retries=3,
     )
     schemas = registry.tool_schemas()
+    # Include tools served by MCP servers (e.g. github.*) so the LLM knows they
+    # exist and can choose to call them. They are routed back through the same
+    # Tool Gateway, so RBAC/observability apply uniformly.
+    mcp_schemas = mcp_registry.tool_schemas()
+    if mcp_schemas:
+        schemas = schemas + mcp_schemas
     if schemas:
         llm = llm.bind_tools(schemas)
     return llm
@@ -185,7 +192,11 @@ async def _tools_node(state: AgentState) -> dict:
         await tracking.record_tool_call(name, arguments=args)
         try:
             result = await tool_gateway.execute_tool(
-                name, args, user_id=state.user_id, conversation_id=state.conversation_id
+                name,
+                args,
+                user_id=state.user_id,
+                conversation_id=state.conversation_id,
+                user_permissions=state.user_permissions,
             )
         except ApprovalRequired as exc:
             approval_id = exc.approval.id
@@ -244,6 +255,7 @@ async def invoke_agent(
     user_id: str = USER_ID,
     conversation_id: str | None = None,
     db=None,
+    user_permissions: list[str] | None = None,
 ) -> dict:
     """Run the agent with the given messages and stream events as they happen.
 
@@ -287,11 +299,20 @@ async def invoke_agent(
     initial_messages: list[BaseMessage] = [SystemMessage(content=system_prompt)]
     initial_messages.extend(messages)
 
+    # Derive the permission set for this run. When GitHub MCP is enabled we
+    # grant the read-only ``github:read`` permission so the agent may call the
+    # github.* tools (all of which are tagged with that permission). Explicit
+    # permissions passed in are preserved and take precedence.
+    effective_permissions = list(user_permissions or [])
+    if settings.github_mcp_enabled and "github:read" not in effective_permissions:
+        effective_permissions.append("github:read")
+
     initial_state: AgentState = AgentState(
         messages=initial_messages,
         user_id=user_id,
         response="",
         conversation_id=conversation_id,
+        user_permissions=effective_permissions,
     )
     config = {"configurable": {"thread_id": f"default-{user_id}"}}
 

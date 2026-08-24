@@ -21,3 +21,4 @@ class AgentState(BaseModel):
     response: str = ""
     conversation_id: str | None = None
     approval_id: str | None = None
+    user_permissions: list[str] = Field(default_factory=list)
