@@ -179,6 +179,22 @@ class ToolGateway:
         """Execute a native :class:`BaseTool`, preserving the existing path."""
         tool: Optional[BaseTool] = self.registry.get_tool(tool_name)
         if tool is None:
+            # Diagnostic: a tool name was resolved to "native" but not found.
+            # For github.* names this means MCP discovery never registered it
+            # in this process (stale instance / failed rediscovery).
+            from app.mcp.registry import mcp_registry as _reg
+
+            _github_tools = [k for k in _reg._tools if k.startswith("github.")]
+            logger.error(
+                "tool_not_found_native",
+                tool=tool_name,
+                resolved_source="native",
+                registry_id=id(_reg),
+                mcp_client_registered=("github" in _reg._clients),
+                gateway_client_registered=("github" in self.mcp_clients),
+                github_tool_count=len(_github_tools),
+                github_tools=_github_tools[:10],
+            )
             return f"Error: unknown tool '{tool_name}'"
         # RBAC gate (shared with MCP tools). Native tools currently declare no
         # required_permission, so this is permissive until they opt in.
@@ -223,6 +239,22 @@ class ToolGateway:
         """
         definition = get_mcp_tool(tool_name)
         if definition is None:
+            # Diagnostic: when an MCP-prefixed tool is requested but not found,
+            # surface the runtime registry state so production logs reveal
+            # whether discovery actually registered the tool (vs. a stale
+            # process / failed rediscovery after a restart).
+            from app.mcp.registry import mcp_registry as _reg
+
+            _github_tools = [k for k in _reg._tools if k.startswith("github.")]
+            logger.error(
+                "mcp_tool_not_found",
+                tool=tool_name,
+                registry_id=id(_reg),
+                mcp_client_registered=("github" in _reg._clients),
+                gateway_client_registered=("github" in self.mcp_clients),
+                github_tool_count=len(_github_tools),
+                github_tools=_github_tools[:10],
+            )
             return f"Error: unknown tool '{tool_name}'"
 
         # RBAC gate (shared with native tools).
