@@ -308,13 +308,16 @@ async def invoke_agent(
     initial_messages: list[BaseMessage] = [SystemMessage(content=system_prompt)]
     initial_messages.extend(messages)
 
-    # Derive the permission set for this run. When GitHub MCP is enabled we
-    # grant the read-only ``github:read`` permission so the agent may call the
-    # github.* tools (all of which are tagged with that permission). Explicit
-    # permissions passed in are preserved and take precedence.
+    # Derive the permission set for this run. When an MCP server is enabled we
+    # grant its read-only permission so the agent may call that server's tools
+    # (all of which are tagged with the matching required_permission). Explicit
+    # permissions passed in are preserved and take precedence. We never grant a
+    # write permission here — read-only is the only auto-grant.
     effective_permissions = list(user_permissions or [])
     if settings.github_mcp_enabled and "github:read" not in effective_permissions:
         effective_permissions.append("github:read")
+    if settings.postgres_mcp_enabled and "database:read" not in effective_permissions:
+        effective_permissions.append("database:read")
 
     initial_state: AgentState = AgentState(
         messages=initial_messages,
