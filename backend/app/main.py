@@ -28,6 +28,16 @@ MCP_GITHUB_SERVER_NAME = "github"
 MCP_GITHUB_TOOL_PREFIX = "github."
 MCP_GITHUB_PERMISSION = "github:read"
 
+#: PostgreSQL MCP Server integration (read-only, opt-in).
+#: Launched over stdio via npx @yawlabs/postgres-mcp. The DB connection string is
+#: injected into the subprocess env as DATABASE_URL — never as a CLI argument and
+#: never logged. MUST point at an independent read-only role (mcp_reader); the
+#: app's own DATABASE_URL is NOT used here.
+MCP_POSTGRES_SERVER_NAME = "postgres"
+MCP_POSTGRES_TOOL_PREFIX = "postgres."
+MCP_POSTGRES_PERMISSION = "database:read"
+MCP_POSTGRES_NPX_PACKAGE = "@yawlabs/postgres-mcp@latest"
+
 # CORS origins: local defaults + any extra origins from the environment
 # (comma-separated). Set CORS_ORIGINS in production to include the deployed
 # frontend and API domains, e.g.
@@ -160,15 +170,88 @@ async def _init_github_mcp() -> None:
         )
 
 
+async def _init_postgres_mcp() -> None:
+    """Connect the PostgreSQL MCP Server (@yawlabs/postgres-mcp) over stdio.
+
+    Opt-in via ``POSTGRES_MCP_ENABLED=true``. The server is launched as a
+    subprocess with its connection string injected into its environment as
+    ``DATABASE_URL`` (never as a CLI argument, never logged). The integration is
+    read-only by default and all tools require ``database:read``.
+
+    Safety:
+      * ALLOW_WRITES is intentionally NEVER set — the server stays read-only.
+      * Production MUST use an independent read-only Postgres role (mcp_reader).
+        The MCP server's read-only mode is NOT the only security boundary; a
+        dedicated role is the real defense-in-depth control.
+      * A missing DATABASE_URL or any startup/discovery failure is isolated: it
+        is logged (without secrets) and the app boot continues normally. Native
+        tools, the time_server, and GitHub MCP are unaffected.
+    """
+    if not settings.postgres_mcp_enabled:
+        logger.info("postgres_mcp_disabled")
+        return
+    if not settings.postgres_mcp_database_url:
+        logger.warning(
+            "postgres_mcp_database_url_missing",
+            server_name=MCP_POSTGRES_SERVER_NAME,
+            hint="set POSTGRES_MCP_DATABASE_URL to an independent read-only connection string",
+        )
+        return
+
+    # Inject the DB URL into the MCP server's environment only. ALLOW_WRITES is
+    # deliberately omitted so the server keeps its default read-only behaviour.
+    env = {
+        "DATABASE_URL": settings.postgres_mcp_database_url,
+    }
+    client = StdioMCPClient(
+        server_name=MCP_POSTGRES_SERVER_NAME,
+        command="npx",
+        args=["-y", MCP_POSTGRES_NPX_PACKAGE],
+        env=env,
+        cwd=str(_BACKEND_ROOT),
+    )
+    try:
+        mcp_registry.register_server(
+            client,
+            tool_prefix=MCP_POSTGRES_TOOL_PREFIX,
+            default_permission=MCP_POSTGRES_PERMISSION,
+        )
+        tool_gateway.register_mcp_client(MCP_POSTGRES_SERVER_NAME, client)
+        discovered = await mcp_registry.discover_tools()
+        tool_names = [d.name for d in discovered]
+        logger.info(
+            "postgres_mcp_connected",
+            server_name=MCP_POSTGRES_SERVER_NAME,
+            tool_count=len(tool_names),
+        )
+        logger.info(
+            "postgres_mcp_tools_discovered",
+            server_name=MCP_POSTGRES_SERVER_NAME,
+            tool_names=tool_names,
+        )
+    except Exception as exc:  # noqa: BLE001 - isolate Postgres MCP failure
+        mcp_registry._clients.pop(MCP_POSTGRES_SERVER_NAME, None)
+        mcp_registry._tool_prefixes.pop(MCP_POSTGRES_SERVER_NAME, None)
+        mcp_registry._default_permissions.pop(MCP_POSTGRES_SERVER_NAME, None)
+        tool_gateway.mcp_clients.pop(MCP_POSTGRES_SERVER_NAME, None)
+        # NOTE: DATABASE_URL is intentionally NOT included anywhere in this log.
+        logger.error(
+            "postgres_mcp_initialization_failed",
+            server_name=MCP_POSTGRES_SERVER_NAME,
+            error_type=type(exc).__name__,
+        )
+
+
 async def _initialize_mcp_servers() -> None:
     """Bring up every configured MCP server during startup.
 
     Each server is initialized independently so a failure in one (e.g. GitHub
-    remote unreachable) cannot affect the others (e.g. the local time_server) or
-    the overall FastAPI boot.
+    remote unreachable, Postgres MCP down) cannot affect the others (e.g. the
+    local time_server) or the overall FastAPI boot.
     """
     await _init_time_server()
     await _init_github_mcp()
+    await _init_postgres_mcp()
 
 
 @asynccontextmanager

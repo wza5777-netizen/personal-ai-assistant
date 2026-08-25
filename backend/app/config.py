@@ -91,6 +91,20 @@ class Settings(BaseSettings):
     #: specifying an owner. Overridable via GITHUB_DEFAULT_OWNER.
     github_default_owner: str = "wza5777-netizen"
 
+    # --- PostgreSQL MCP Server (read-only, opt-in) -------------------------
+    # Connect a real PostgreSQL MCP server (@yawlabs/postgres-mcp) over stdio.
+    # Disabled by default. The DB connection URL is injected into the MCP
+    # server's environment as DATABASE_URL (never as a CLI argument, never
+    # logged). MUST be an independent read-only role (e.g. mcp_reader); do not
+    # reuse the app's own DATABASE_URL.
+    postgres_mcp_enabled: bool = False
+    # Independent read-only Postgres connection string for the MCP server only.
+    # Leave empty to skip safely. NEVER committed with a real Neon/connection
+    # string (use the Render dashboard or a local .env for real values).
+    postgres_mcp_database_url: str = "postgresql://mcp_reader:Wza%2C920618@ep-sweet-moon-aztufaek-pooler.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    # Startup / discovery / call timeout (seconds).
+    postgres_mcp_timeout: float = 30.0
+
     @classmethod
     def settings_customise_sources(
         cls,

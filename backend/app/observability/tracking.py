@@ -223,7 +223,23 @@ async def finish_run(status: str, *, final_response: str | None = None, error: s
     logger.info("agent_run_finished", run_id=run_id, status=status)
 
 
-_SENSITIVE_KEYS = {"password", "token", "api_key", "secret", "authorization", "apikey", "key"}
+# Keys whose *values* must never reach logs (secrets, credentials, connection
+# strings). Substring match on lowercased key names. ``database_url`` /
+# ``connection`` / ``dsn`` are included so Postgres MCP connection strings are
+# never echoed into observability.
+_SENSITIVE_KEYS = {
+    "password",
+    "token",
+    "api_key",
+    "secret",
+    "authorization",
+    "apikey",
+    "key",
+    "database_url",
+    "connection_string",
+    "connection",
+    "dsn",
+}
 
 
 def _redact(payload: dict[str, Any]) -> dict[str, Any]:
