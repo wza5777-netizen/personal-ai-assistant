@@ -146,18 +146,20 @@ class MCPToolRegistry:
         (if any) to prevent collisions, and ``default_permission`` (if any) is
         applied as the RBAC gate.
 
-        Fault isolation: a failure in *one* server's ``list_tools()`` is logged
-        and skipped without aborting the others or rolling back already
-        discovered tools. This prevents a flaky server (e.g. a stdio subprocess
-        that died after an earlier discovery) from taking down discovery of
-        healthy servers such as the GitHub Remote MCP, which would otherwise
-        surface as ``unknown tool`` at runtime.
+        Fault isolation (critical for production stability): discovery is
+        *incremental and sticky*. Each server's previously discovered tools are
+        only replaced when that specific server's ``list_tools()`` call
+        *succeeds*. If a server fails to respond on a given pass (e.g. a stdio
+        subprocess died after an earlier success, or a transient network error
+        against the GitHub Remote MCP during a worker restart), the failure is
+        logged and the server's **already-registered tools are kept**. This
+        prevents a single failed re-discovery — which happens when the FastAPI
+        lifespan re-runs on a Render worker restart — from wiping tools that
+        were successfully discovered earlier, which would otherwise surface as
+        ``unknown tool`` at runtime.
 
-        The tool catalog is rebuilt from scratch on every call so re-running
-        discovery (as the FastAPI lifespan does for each server) never leaves
-        stale entries and always reflects the current live clients.
+        Returns the definitions discovered/refreshed in *this* call.
         """
-        self._tools.clear()
         discovered: list[MCPToolDefinition] = []
         for client in self._clients.values():
             name = client.server_name
@@ -165,13 +167,22 @@ class MCPToolRegistry:
             permission = self._default_permissions.get(name)
             try:
                 specs: list[MCPToolSpec] = await client.list_tools()
-            except Exception as exc:  # noqa: BLE001 - isolate this server
+            except Exception as exc:  # noqa: BLE001 - keep prior tools
                 logger.error(
                     "mcp_discover_failed",
                     server_name=name,
                     error_type=type(exc).__name__,
                 )
+                # Preserve tools already registered for this server from a prior
+                # successful discovery; do NOT clear them.
+                discovered.extend(
+                    t for t in self._tools.values() if t.server_name == name
+                )
                 continue
+            # Refresh this server's tools: drop its previous entries, then add
+            # the freshly discovered ones.
+            for old in [k for k, t in self._tools.items() if t.server_name == name]:
+                self._tools.pop(old, None)
             for spec in specs:
                 registered_name = f"{prefix}{spec.name}" if prefix else spec.name
                 definition = MCPToolDefinition(
