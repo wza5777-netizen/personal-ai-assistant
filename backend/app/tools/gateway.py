@@ -124,11 +124,13 @@ class ToolGateway:
         # field is never populated with secrets.
         mcp_def = get_mcp_tool(tool_name) if source == SOURCE_MCP else None
         server_name = mcp_def.server_name if mcp_def is not None else None
+        remote_tool = mcp_def.remote_name if mcp_def is not None else None
         logger.info(
             "tool_call_start",
             tool=tool_name,
             source=source,
             server_name=server_name,
+            remote_tool=remote_tool,
             user_id=user_id,
             arguments=redact_for_logging(arguments or {}),
         )
@@ -269,8 +271,14 @@ class ToolGateway:
         if client is None:
             return f"Error: no MCP client for server '{definition.server_name}'"
 
+        # The remote MCP server only knows its own native tool names, captured at
+        # discovery time as ``definition.remote_name``. We must NOT send the
+        # agent-facing (prefixed) ``tool_name`` (e.g. ``github.list_commits``) to
+        # the server, or it returns ``unknown tool``. Observability continues to
+        # record the agent-facing ``tool_name`` as the logical tool identity.
+        remote_name = definition.remote_name or tool_name
         try:
-            raw = await client.call_tool(tool_name, arguments or {})
+            raw = await client.call_tool(remote_name, arguments or {})
         except Exception as exc:  # noqa: BLE001 - surface as a failed ToolResult
             await record_tool_result(tool_name, ok=False, status="error")
             return f"Error: mcp client failed for '{tool_name}': {exc}"

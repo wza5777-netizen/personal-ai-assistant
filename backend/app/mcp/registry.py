@@ -6,12 +6,21 @@ metadata* from the live MCP connection.
 
 Each :class:`MCPToolDefinition` records:
 
-* ``name``              - the tool name the agent invokes (globally unique,
-  just like native tool names).
+* ``name``              - the **agent-facing / gateway-facing** tool name the agent
+  invokes (globally unique, just like native tool names). For namespaced servers
+  this is the prefixed name, e.g. ``github.list_commits``.
+* ``remote_name``       - the **native MCP tool name** as advertised by the remote
+  server, e.g. ``list_commits``. This is the name actually sent to
+  ``client.call_tool(...)``. It equals ``name`` when no prefix is applied.
 * ``description``       - human/LLM-readable description.
 * ``server_name``       - which MCP server exposes it.
 * ``required_permission`` - optional RBAC permission string enforced by the
   gateway before the call is forwarded to the MCP client.
+
+The separation exists because a server's namespace is prefixed locally (to avoid
+collisions) but the remote MCP server only knows its own native tool names. The
+remote name is captured **at discovery time**, never guessed via string
+splitting at execution time.
 
 The gateway looks an MCP tool up here by ``name`` to find its server + client,
 and checks ``required_permission`` exactly like it would for a native tool.
@@ -33,11 +42,18 @@ class MCPToolDefinition:
     """Metadata describing a tool provided by an MCP-compatible server."""
 
     name: str
+    remote_name: str = ""
     description: str = ""
     server_name: str = "mcp"
     required_permission: Optional[str] = None
     # Optional JSON-schema describing the tool arguments (OpenAI function style).
     parameters: dict = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        # When no remote name is supplied it defaults to the (already namespaced)
+        # canonical name — which is correct for servers without a tool prefix.
+        if not self.remote_name:
+            self.remote_name = self.name
 
 
 class MCPToolRegistry:
@@ -187,6 +203,10 @@ class MCPToolRegistry:
                 registered_name = f"{prefix}{spec.name}" if prefix else spec.name
                 definition = MCPToolDefinition(
                     name=registered_name,
+                    # The native name the remote server knows, preserved verbatim
+                    # from discovery so the gateway never has to guess it at call
+                    # time via string manipulation.
+                    remote_name=spec.name,
                     description=spec.description,
                     server_name=name,
                     required_permission=permission,
