@@ -19,6 +19,15 @@ class TaskCreate(BaseModel):
     due_time: Optional[datetime] = None
 
 
+class TaskUpdate(BaseModel):
+    """Partial update; only fields explicitly provided are applied."""
+
+    title: Optional[str] = Field(None, max_length=256)
+    description: Optional[str] = None
+    due_time: Optional[datetime] = None
+    status: Optional[str] = None
+
+
 class TaskOut(TaskBase):
     model_config = ConfigDict(from_attributes=True)
 

@@ -183,9 +183,9 @@ async def test_task_isolation(client: AsyncClient):
     from app.models.task import Task
 
     async with SessionLocal() as session:
+        # id is auto-incremented (INTEGER PRIMARY KEY); do not hand-roll a value.
         await session.execute(
             insert(Task).values(
-                id="task-a-1",
                 user_id=user_a["id"],
                 title="A task",
                 description="",
