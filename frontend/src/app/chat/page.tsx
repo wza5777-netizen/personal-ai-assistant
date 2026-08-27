@@ -174,9 +174,12 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
     }
   }
 
+  // 移动端：整页固定为 100dvh 视口布局，只有消息区滚动，Composer 固定在底部第一屏；
+  // 桌面（lg）恢复原有文档流 + 70vh 消息区 + Timeline 布局。
+  // 负外边距抵消 layout.tsx 中 main 的内边距，让聊天页占满整个 main 高度。
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="-mx-4 -my-6 flex h-full flex-col overflow-hidden p-4 pb-0 sm:-mx-6 sm:-my-8 sm:p-6 sm:pb-0 lg:mx-0 lg:my-0 lg:h-auto lg:overflow-visible lg:p-0">
+      <div className="flex shrink-0 items-center justify-between">
         <h1 className="text-2xl font-bold">对话</h1>
         <button
           onClick={handleLogout}
@@ -186,9 +189,9 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
         </button>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+      <div className="mt-4 flex min-h-0 flex-1 flex-col gap-4 lg:mt-6 lg:grid lg:grid-cols-[1fr_360px] lg:flex-none lg:gap-6">
         {/* Conversation column */}
-        <div className="space-y-3">
+        <div className="flex min-h-0 flex-1 flex-col gap-3">
           {streamingStatus === "error" && (
             <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">
               生成失败，请重试。
@@ -197,7 +200,7 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
 
           <div
             ref={scrollRef}
-            className="max-h-[70vh] space-y-3 overflow-y-auto rounded-lg border border-white/10 p-4"
+            className="min-h-0 flex-1 space-y-3 overflow-y-auto rounded-lg border border-white/10 p-4 lg:max-h-[70vh] lg:flex-none"
           >
             {messages.length === 0 && (
               <p className="text-sm text-gray-500">暂无消息，来打个招呼吧！</p>
@@ -248,7 +251,7 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
               e.preventDefault();
               send();
             }}
-            className="flex items-end gap-2 pb-[max(env(safe-area-inset-bottom),0px)]"
+            className="flex shrink-0 items-center gap-2 pb-[max(env(safe-area-inset-bottom),0px)]"
           >
             <div className="min-w-0 flex-1">
               <textarea
@@ -258,7 +261,7 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
                 placeholder={isListening ? "正在聆听…" : "输入消息…"}
                 rows={1}
                 enterKeyHint="send"
-                className="max-h-40 min-h-11 w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+                className="max-h-[120px] min-h-[44px] w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm leading-5 outline-none focus:border-blue-500"
               />
               {isListening && (
                 <p className="mt-1 flex items-center gap-1.5 text-xs text-red-300">
@@ -305,8 +308,8 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
           </form>
         </div>
 
-        {/* Agent execution timeline */}
-        <aside className="space-y-3">
+        {/* Agent execution timeline（移动端隐藏，聚焦对话区） */}
+        <aside className="hidden space-y-3 lg:block">
           <h2 className="text-sm font-semibold text-gray-300">
             Agent 执行 Timeline
           </h2>
