@@ -174,11 +174,12 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
     }
   }
 
-  // 移动端：整页固定为 100dvh 视口布局，只有消息区滚动，Composer 固定在底部第一屏；
-  // 桌面（lg）恢复原有文档流 + 70vh 消息区 + Timeline 布局。
-  // 负外边距抵消 layout.tsx 中 main 的内边距，让聊天页占满整个 main 高度。
+  // 移动端（< lg）：直接锁定自身高度为视口减去顶部 Header（44px），
+  // 不依赖 h-full / flex 链。只有消息区滚动，Composer 固定在底部第一屏。
+  // 桌面（lg）：恢复原有文档流 + 70vh 消息区 + Timeline 双栏布局。
+  // 负外边距抵消 layout.tsx 中 main 的内边距，让聊天页占满整行。
   return (
-    <div className="-mx-4 -my-6 flex h-full flex-col overflow-hidden p-4 pb-0 sm:-mx-6 sm:-my-8 sm:p-6 sm:pb-0 lg:mx-0 lg:my-0 lg:h-auto lg:overflow-visible lg:p-0">
+    <div className="-mx-4 -my-6 flex h-[calc(100dvh-44px)] flex-col overflow-hidden p-4 sm:-mx-6 sm:-my-8 sm:p-6 lg:mx-0 lg:my-0 lg:h-auto lg:overflow-visible lg:p-0">
       <div className="flex shrink-0 items-center justify-between">
         <h1 className="text-2xl font-bold">对话</h1>
         <button
@@ -251,7 +252,7 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
               e.preventDefault();
               send();
             }}
-            className="flex shrink-0 items-center gap-2 pb-[max(env(safe-area-inset-bottom),0px)]"
+            className="flex shrink-0 items-end gap-2 pb-[max(env(safe-area-inset-bottom),0px)]"
           >
             <div className="min-w-0 flex-1">
               <textarea

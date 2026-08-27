@@ -24,7 +24,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN">
-      <body className="flex min-h-dvh flex-col antialiased">
+      <body className="min-h-dvh antialiased">
         <AuthProvider>
           <header className="border-b border-white/10 px-4 py-3 sm:px-6 sm:py-4">
             <nav className="mx-auto flex max-w-5xl items-center gap-3">
