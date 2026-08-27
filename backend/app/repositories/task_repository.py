@@ -76,6 +76,9 @@ class TaskRepository:
             existing.due_time = due_time
         if status is not None:
             existing.status = status
+            # Restoring a task back to pending must clear its completion stamp.
+            if status == "pending":
+                existing.completed_at = None
         try:
             await self.session.commit()
         except Exception:

@@ -35,3 +35,4 @@ class TaskOut(TaskBase):
     user_id: str
     created_at: datetime
     updated_at: datetime
+    completed_at: Optional[datetime] = None

@@ -26,6 +26,9 @@ backend/evaluation/reports/*.json
 .idea/
 .vscode/
 
+# Local IDE model config may contain real API keys
+.codebuddy/models.json
+
 # OS
 .DS_Store
 

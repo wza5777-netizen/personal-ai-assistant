@@ -110,6 +110,22 @@ export interface Task {
   due_time: string | null;
   created_at: string;
   updated_at: string;
+  completed_at: string | null;
+}
+
+/** Payload for creating a task (aligned with backend TaskCreate). */
+export interface TaskCreateInput {
+  title: string;
+  description?: string | null;
+  due_time?: string | null;
+}
+
+/** Partial payload for updating a task (aligned with backend TaskUpdate). */
+export interface TaskUpdateInput {
+  title?: string;
+  description?: string | null;
+  due_time?: string | null;
+  status?: string;
 }
 
 export interface CalendarEvent {
@@ -174,6 +190,10 @@ async function request<T>(
   }
   if (!res.ok) {
     throw new Error(`Request failed: ${res.status} ${res.statusText}`);
+  }
+  // 204 No Content has no body; return undefined instead of parsing JSON.
+  if (res.status === 204) {
+    return undefined as T;
   }
   return res.json() as Promise<T>;
 }
@@ -398,6 +418,20 @@ export const apiClient = {
       body: JSON.stringify(decision),
     }),
   listTasks: () => request<Task[]>("/api/v1/tasks"),
+  createTask: (payload: TaskCreateInput) =>
+    request<Task>("/api/v1/tasks", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  updateTask: (id: number, payload: TaskUpdateInput) =>
+    request<Task>(`/api/v1/tasks/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    }),
+  completeTask: (id: number) =>
+    request<Task>(`/api/v1/tasks/${id}/complete`, { method: "POST" }),
+  deleteTask: (id: number) =>
+    request<void>(`/api/v1/tasks/${id}`, { method: "DELETE" }),
   listEvents: () => request<CalendarEvent[]>("/api/v1/calendar/events"),
   listMemories: () => request<Memory[]>("/api/v1/memories"),
   uploadDocument: async (file: File) => {
