@@ -9,12 +9,21 @@ from app.tools.gateway import ToolGateway, gateway
 from app.tools.knowledge_tool import SearchKnowledgeTool
 from app.tools.memory_tool import SaveMemoryTool, SearchMemoryTool
 from app.tools.registry import ToolRegistry, registry
-from app.tools.task_tool import CreateTaskTool, ListTasksTool
+from app.tools.task_tool import (
+    CompleteTaskTool,
+    CreateTaskTool,
+    DeleteTaskTool,
+    ListTasksTool,
+    UpdateTaskTool,
+)
 
 # Register built-in tools.
 registry.register(CurrentTimeTool())
 registry.register(CreateTaskTool())
 registry.register(ListTasksTool())
+registry.register(UpdateTaskTool())
+registry.register(CompleteTaskTool())
+registry.register(DeleteTaskTool())
 registry.register(QueryCalendarTool())
 registry.register(CreateEventTool())
 registry.register(UpdateEventTool())
@@ -36,6 +45,9 @@ __all__ = [
     "CurrentTimeTool",
     "CreateTaskTool",
     "ListTasksTool",
+    "UpdateTaskTool",
+    "CompleteTaskTool",
+    "DeleteTaskTool",
     "QueryCalendarTool",
     "CreateEventTool",
     "UpdateEventTool",
