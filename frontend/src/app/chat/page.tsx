@@ -3,7 +3,22 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useChat } from "@/lib/use-chat";
+import { useSpeechInput } from "@/lib/use-speech-input";
 import { useAuth } from "@/lib/auth-context";
+
+/**
+ * 把语音识别文本拼接到输入框已有内容之后：
+ * - 空原内容：直接使用识别文本；
+ * - 原内容以 ASCII 字母/数字结尾（如 "hello"）：补一个空格，避免粘连；
+ * - 中文等结尾（如 "帮我"）：直接拼接，不加空格。
+ */
+function joinSpeech(base: string, speech: string): string {
+  if (!speech) return base;
+  if (!base) return speech;
+  const lastChar = base[base.length - 1];
+  const needsSpace = /[A-Za-z0-9]/.test(lastChar);
+  return needsSpace ? `${base} ${speech}` : `${base}${speech}`;
+}
 
 function riskBadge(risk?: string) {
   if (risk === "high") {
@@ -106,6 +121,41 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
     timelineError,
   } = useChat(user?.id);
   const streaming = streamingStatus === "streaming";
+  const {
+    isSupported: isSpeechSupported,
+    isListening,
+    transcript: speechTranscript,
+    error: speechError,
+    startListening,
+    stopListening,
+  } = useSpeechInput();
+  // 开始录音前保存输入框原内容，识别结果只做「追加」，绝不覆盖已输入文字。
+  const speechBaseRef = useRef("");
+
+  function handleMicToggle() {
+    if (isListening) {
+      stopListening();
+    } else {
+      speechBaseRef.current = input;
+      startListening();
+    }
+  }
+
+  // 识别过程中的 interim 结果实时写入 textarea；结束时写入最终结果。
+  // 识别结束后只更新输入框，绝不自动发送 / 调用 Agent。
+  useEffect(() => {
+    if (isListening || speechTranscript) {
+      setInput(joinSpeech(speechBaseRef.current, speechTranscript));
+    }
+  }, [speechTranscript, isListening, setInput]);
+
+  function handleComposerKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    // Enter 发送；Shift+Enter 换行；中文输入法组词回车不触发发送。
+    if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      send();
+    }
+  }
 
   const scrollRef = useRef<HTMLDivElement>(null);
   // Auto-scroll to the newest message whenever the message list changes.
@@ -198,18 +248,57 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
               e.preventDefault();
               send();
             }}
-            className="flex gap-2"
+            className="flex items-end gap-2 pb-[max(env(safe-area-inset-bottom),0px)]"
           >
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="输入消息…"
-              className="flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-blue-500"
-            />
+            <div className="min-w-0 flex-1">
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleComposerKeyDown}
+                placeholder={isListening ? "正在聆听…" : "输入消息…"}
+                rows={1}
+                enterKeyHint="send"
+                className="max-h-40 min-h-11 w-full resize-none rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm outline-none focus:border-blue-500"
+              />
+              {isListening && (
+                <p className="mt-1 flex items-center gap-1.5 text-xs text-red-300">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-400" />
+                  ● 正在聆听… 点击麦克风停止
+                </p>
+              )}
+              {!isListening && speechError && (
+                <p className="mt-1 text-xs text-amber-300" role="alert">
+                  {speechError.message}
+                </p>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={handleMicToggle}
+              disabled={!isSpeechSupported || streaming}
+              title={
+                !isSpeechSupported
+                  ? "当前浏览器暂不支持语音输入"
+                  : isListening
+                    ? "停止录音"
+                    : "语音输入"
+              }
+              aria-label={isListening ? "停止录音" : "开始语音输入"}
+              aria-pressed={isListening}
+              className={`flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-lg border text-lg transition-colors ${
+                isListening
+                  ? "animate-pulse border-red-500/50 bg-red-500/20 text-red-300"
+                  : "border-white/10 bg-white/5 text-gray-300 hover:text-white"
+              } disabled:opacity-40`}
+            >
+              {isListening ? "⏹" : "🎤"}
+            </button>
+
             <button
               type="submit"
               disabled={streaming || !input.trim()}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="h-11 shrink-0 touch-manipulation rounded-lg bg-blue-600 px-4 text-sm font-medium text-white disabled:opacity-50"
             >
               发送
             </button>
