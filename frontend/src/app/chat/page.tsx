@@ -254,7 +254,7 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
             }}
             className="flex shrink-0 items-end gap-2 pb-[max(env(safe-area-inset-bottom),0px)]"
           >
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0 flex-1 flex items‑center h‑11">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
