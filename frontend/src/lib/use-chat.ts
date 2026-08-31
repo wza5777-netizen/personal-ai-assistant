@@ -2,7 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { apiClient, RunInfo, StreamEvent, TraceEventView } from "./api-client";
+import {
+  apiClient,
+  MESSAGE_PAGE_SIZE,
+  RunInfo,
+  StreamEvent,
+  TraceEventView,
+} from "./api-client";
 import { conversationKeyFor } from "./auth-storage";
 
 export interface ChatMessage {
@@ -200,6 +206,13 @@ export function useChat(userId?: string | null) {
   const [runInfo, setRunInfo] = useState<RunInfo | null>(null);
   // True when the timeline (observability) failed to load. Chat must still work.
   const [timelineError, setTimelineError] = useState(false);
+  // Conversation history is paged: only the newest page is held in memory and
+  // older messages are fetched on demand ("load earlier messages").
+  const [hasMoreMessages, setHasMoreMessages] = useState(false);
+  const [loadingMoreMessages, setLoadingMoreMessages] = useState(false);
+  // Id of the oldest message currently loaded — the cursor for the next older
+  // page. Kept in a ref so paging never depends on a re-render.
+  const oldestMessageIdRef = useRef<string | null>(null);
 
   // Maps tool_call_id -> timeline entry index so tool_result merges in place.
   const timelineIndexByCallId = useRef<Map<string, number>>(new Map());
@@ -254,19 +267,59 @@ export function useChat(userId?: string | null) {
       writeConversationId(userId, id);
       setTimelineError(false);
       const [msgResult] = await Promise.allSettled([
-        apiClient.getConversationMessages(id).then((items) => {
-          if (items.length > 0) {
+        apiClient
+          .getConversationMessages(id, { limit: MESSAGE_PAGE_SIZE })
+          .then((page) => {
+            const items = page.items ?? [];
+            // Always replace: switching to an empty conversation must clear
+            // the previous one's messages.
             setMessages(items.map((m) => ({ role: m.role, content: m.content })));
-          }
-        }),
+            oldestMessageIdRef.current = items.length > 0 ? items[0].id : null;
+            setHasMoreMessages(Boolean(page.has_more));
+          }),
         loadTimeline(id),
       ]);
       if (msgResult.status === "rejected") {
         // Ignore load failures; the conversation simply starts empty.
+        setMessages([]);
+        oldestMessageIdRef.current = null;
+        setHasMoreMessages(false);
       }
     },
     [loadTimeline]
   );
+
+  // Fetch the next (older) page of messages and prepend it. Newly sent
+  // messages do not affect the cursor because it always tracks the oldest
+  // loaded message, not the newest.
+  const loadMoreMessages = useCallback(async (): Promise<boolean> => {
+    const cursor = oldestMessageIdRef.current;
+    if (!conversationId || !cursor || !hasMoreMessages || loadingMoreMessages) {
+      return false;
+    }
+    setLoadingMoreMessages(true);
+    try {
+      const page = await apiClient.getConversationMessages(conversationId, {
+        limit: MESSAGE_PAGE_SIZE,
+        before: cursor,
+      });
+      const items = page.items ?? [];
+      if (items.length > 0) {
+        oldestMessageIdRef.current = items[0].id;
+        setMessages((prev) => [
+          ...items.map((m) => ({ role: m.role, content: m.content })),
+          ...prev,
+        ]);
+      }
+      setHasMoreMessages(Boolean(page.has_more));
+      return items.length > 0;
+    } catch {
+      // Keep the already loaded messages; the user can retry.
+      return false;
+    } finally {
+      setLoadingMoreMessages(false);
+    }
+  }, [conversationId, hasMoreMessages, loadingMoreMessages]);
 
   // On mount: restore chat history so it survives a page refresh.
   // Prefer a locally stored conversation id; if absent (or invalid), fall back
@@ -430,5 +483,8 @@ export function useChat(userId?: string | null) {
     agentStatus,
     runInfo,
     timelineError,
+    hasMoreMessages,
+    loadingMoreMessages,
+    loadMoreMessages,
   };
 }

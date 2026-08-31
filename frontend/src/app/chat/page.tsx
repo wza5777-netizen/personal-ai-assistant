@@ -119,6 +119,9 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
     agentStatus,
     runInfo,
     timelineError,
+    hasMoreMessages,
+    loadingMoreMessages,
+    loadMoreMessages,
   } = useChat(user?.id);
   const streaming = streamingStatus === "streaming";
   const {
@@ -158,10 +161,33 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
   }
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  // Scroll bookkeeping for history paging: when older messages are prepended
+  // the content grows above the viewport, so the view must hold its position
+  // instead of jumping to the newest message.
+  const lastScrollHeightRef = useRef(0);
+  const pendingPrependRef = useRef(false);
+
+  function handleLoadMore() {
+    if (!hasMoreMessages || loadingMoreMessages) return;
+    lastScrollHeightRef.current = scrollRef.current?.scrollHeight ?? 0;
+    pendingPrependRef.current = true;
+    void loadMoreMessages().then((prepended) => {
+      // Nothing was inserted (error / empty page): drop the pending flag so the
+      // next update scrolls normally.
+      if (!prepended) pendingPrependRef.current = false;
+    });
+  }
+
   // Auto-scroll to the newest message whenever the message list changes.
   useEffect(() => {
     const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
+    if (!el) return;
+    if (pendingPrependRef.current) {
+      pendingPrependRef.current = false;
+      el.scrollTop += el.scrollHeight - lastScrollHeightRef.current;
+      return;
+    }
+    el.scrollTop = el.scrollHeight;
   }, [messages]);
   // True while the last message is the assistant reply being generated.
   const generating =
@@ -203,6 +229,18 @@ function ChatView({ onLogout }: { onLogout: () => void }) {
             ref={scrollRef}
             className="min-h-0 flex-1 space-y-3 overflow-y-auto rounded-lg border border-white/10 p-4 lg:max-h-[70vh] lg:flex-none"
           >
+            {hasMoreMessages && (
+              <div className="flex justify-center pb-1">
+                <button
+                  type="button"
+                  onClick={handleLoadMore}
+                  disabled={loadingMoreMessages}
+                  className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-gray-300 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {loadingMoreMessages ? "加载中…" : "加载更早的消息"}
+                </button>
+              </div>
+            )}
             {messages.length === 0 && (
               <p className="text-sm text-gray-500">暂无消息，来打个招呼吧！</p>
             )}

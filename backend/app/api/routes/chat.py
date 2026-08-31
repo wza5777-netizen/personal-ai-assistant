@@ -3,7 +3,7 @@ import asyncio
 import json
 import uuid
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import StreamingResponse
 from langchain_core.messages import HumanMessage
 
@@ -24,8 +24,16 @@ from app.repositories.conversation_repository import (
     update_conversation_title,
     derive_title,
     DEFAULT_CONVERSATION_TITLE,
+    DEFAULT_MESSAGE_PAGE_SIZE,
+    MAX_MESSAGE_PAGE_SIZE,
 )
-from app.schemas.chat import ChatRequest, ChatResponse, MessageItem, ConversationItem
+from app.schemas.chat import (
+    ChatRequest,
+    ChatResponse,
+    MessageItem,
+    MessagePage,
+    ConversationItem,
+)
 
 router = APIRouter()
 
@@ -83,25 +91,49 @@ async def chat(
     return ChatResponse(response=result["response"], conversation_id=conv_id)
 
 
-@router.get("/conversations/{conversation_id}/messages", response_model=list[MessageItem])
+@router.get("/conversations/{conversation_id}/messages", response_model=MessagePage)
 async def get_conversation_messages(
-    conversation_id: str, current_user: User = Depends(get_current_user)
-) -> list[MessageItem]:
-    """Return all messages of a conversation ordered by time ascending.
+    conversation_id: str,
+    limit: int = Query(
+        default=DEFAULT_MESSAGE_PAGE_SIZE,
+        ge=1,
+        le=MAX_MESSAGE_PAGE_SIZE,
+        description="Number of messages per page (newest-first paging)",
+    ),
+    before: str | None = Query(
+        default=None,
+        description="Only return messages strictly older than this message id",
+    ),
+    current_user: User = Depends(get_current_user),
+) -> MessagePage:
+    """Return one page of a conversation's messages, oldest to newest.
+
+    Paged newest-first via the ``before`` cursor: the first call omits it to
+    load the latest messages, then the client passes ``items[0].id`` to walk
+    back through history. This keeps the payload bounded no matter how long the
+    conversation is.
 
     The conversation must belong to the authenticated user. Other users'
-    conversations return an empty list (no resource-existence disclosure).
+    conversations return an empty page (no resource-existence disclosure).
     """
     current_user_id = current_user.id
-    messages = await get_messages(conversation_id, current_user_id)
-    return [
+    messages, has_more = await get_messages(
+        conversation_id, current_user_id, limit=limit, before=before
+    )
+    items = [
         MessageItem(
+            id=m.id,
             role=m.role,
             content=m.content,
             created_at=m.created_at.isoformat() if m.created_at else "",
         )
         for m in messages
     ]
+    return MessagePage(
+        items=items,
+        next_cursor=items[0].id if items and has_more else None,
+        has_more=has_more,
+    )
 
 
 @router.get("/conversations", response_model=list[ConversationItem])

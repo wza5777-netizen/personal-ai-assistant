@@ -4,7 +4,7 @@ Reuses the existing ORM models (Conversation / Message). No new tables are
 created here — these functions only read/write the already-migrated schema.
 """
 from datetime import datetime, timezone
-from sqlalchemy import select
+from sqlalchemy import select, tuple_
 
 from app.database.session import AsyncSessionLocal
 from app.models.conversation import Conversation
@@ -95,25 +95,72 @@ async def list_conversations(current_user_id: str) -> list[Conversation]:
         return list(result.scalars().all())
 
 
-async def get_messages(conversation_id: str, current_user_id: str) -> list[Message]:
-    """Return all messages for ``conversation_id`` ordered by time ascending.
+# --- Message paging -------------------------------------------------------
+# A chat UI renders the newest messages and pulls older history on demand, so
+# messages are paged backwards (newest-first) from the end of the conversation.
+DEFAULT_MESSAGE_PAGE_SIZE = 20
+MAX_MESSAGE_PAGE_SIZE = 100
+
+
+async def get_messages(
+    conversation_id: str,
+    current_user_id: str,
+    limit: int = DEFAULT_MESSAGE_PAGE_SIZE,
+    before: str | None = None,
+) -> tuple[list[Message], bool]:
+    """Return one page of messages for ``conversation_id``, oldest to newest.
+
+    Paging is newest-first and cursor based: ``before`` is the id of the oldest
+    message the client already holds, and the returned page contains the
+    messages strictly older than it. Omitting ``before`` yields the most recent
+    ``limit`` messages. Within a page the messages are still ordered
+    chronologically (ascending) so the UI can render them directly.
 
     Enforces a double check: the conversation must exist AND belong to
-    ``current_user_id``. Any mismatch returns an empty list so another user's
+    ``current_user_id``. Any mismatch returns an empty page so another user's
     data is never exposed. ``current_user_id`` is always derived server-side
     (never trusted from the client).
+
+    Returns ``(messages, has_more)``; ``has_more`` reports whether older
+    messages are still available.
     """
+    limit = max(1, min(limit, MAX_MESSAGE_PAGE_SIZE))
     async with AsyncSessionLocal() as session:
         conversation = await session.get(Conversation, conversation_id)
         if conversation is None or conversation.user_id != current_user_id:
-            return []
-        stmt = (
-            select(Message)
-            .where(Message.conversation_id == conversation_id)
-            .order_by(Message.created_at.asc())
+            return [], False
+
+        stmt = select(Message).where(Message.conversation_id == conversation_id)
+
+        if before:
+            anchor = await session.get(Message, before)
+            # An unknown anchor (or one belonging to another conversation)
+            # yields an empty page instead of silently restarting from the
+            # newest messages, which would duplicate rows on the client.
+            if anchor is None or anchor.conversation_id != conversation_id:
+                return [], False
+            if anchor.created_at is not None:
+                # Row-wise comparison keeps paging stable when several
+                # messages share a timestamp; ``id`` breaks the tie.
+                stmt = stmt.where(
+                    tuple_(Message.created_at, Message.id)
+                    < tuple_(anchor.created_at, anchor.id)
+                )
+            else:
+                stmt = stmt.where(Message.id < anchor.id)
+
+        # Fetch one extra row purely to detect whether more history exists.
+        stmt = stmt.order_by(Message.created_at.desc(), Message.id.desc()).limit(
+            limit + 1
         )
         result = await session.execute(stmt)
-        return list(result.scalars().all())
+        rows = list(result.scalars().all())
+
+        has_more = len(rows) > limit
+        if has_more:
+            rows = rows[:limit]
+        rows.reverse()
+        return rows, has_more
 
 
 async def get_recent_conversation(current_user_id: str) -> Conversation | None:

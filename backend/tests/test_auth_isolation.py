@@ -110,7 +110,10 @@ async def test_conversation_ownership(client: AsyncClient):
         f"/api/v1/conversations/{conv_id}/messages", headers=_headers(token_b)
     )
     assert resp_b.status_code == 200
-    assert resp_b.json() == []  # safe empty result, no leakage
+    # The endpoint is paged, so the payload is an object; the important part is
+    # that it carries no items: a safe empty result, no leakage.
+    assert resp_b.json()["items"] == []
+    assert resp_b.json()["has_more"] is False
 
 
 # --------------------------------------------------------------------------- #

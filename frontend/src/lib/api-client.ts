@@ -33,9 +33,33 @@ export interface ChatResponse {
 
 /** A single persisted chat message returned by the history endpoint. */
 export interface MessageItem {
+  /** Message id; also the cursor used to page further back in history. */
+  id: string;
   role: "user" | "assistant";
   content: string;
   created_at: string;
+}
+
+/**
+ * One page of conversation history. The endpoint pages newest-first, so
+ * ``items`` holds the newest messages of the requested window in chronological
+ * order and ``next_cursor`` points at the next (older) page.
+ */
+export interface MessagePage {
+  items: MessageItem[];
+  /** Cursor for the next older page (the id of ``items[0]``), null if none. */
+  next_cursor: string | null;
+  has_more: boolean;
+}
+
+/** Default number of messages fetched per page. */
+export const MESSAGE_PAGE_SIZE = 20;
+
+/** Options for {@link apiClient.getConversationMessages}. */
+export interface MessagePageParams {
+  limit?: number;
+  /** Return messages strictly older than this message id. */
+  before?: string | null;
 }
 
 /** A conversation summary returned by the list endpoint. */
@@ -350,9 +374,23 @@ export const apiClient = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
-  /** Fetch all persisted messages for a conversation (time ascending). */
-  getConversationMessages: (conversationId: string) =>
-    request<MessageItem[]>(`/api/v1/conversations/${conversationId}/messages`),
+  /**
+   * Fetch a page of persisted messages for a conversation (time ascending).
+   * Omit ``before`` for the latest page; pass ``items[0].id`` to page back
+   * through older history.
+   */
+  getConversationMessages: (
+    conversationId: string,
+    params?: MessagePageParams
+  ) => {
+    const search = new URLSearchParams();
+    if (params?.limit) search.set("limit", String(params.limit));
+    if (params?.before) search.set("before", params.before);
+    const query = search.toString();
+    return request<MessagePage>(
+      `/api/v1/conversations/${conversationId}/messages${query ? `?${query}` : ""}`
+    );
+  },
   /** List the current user's conversations (most recent first). */
   getConversations: () =>
     request<ConversationItem[]>(`/api/v1/conversations`),
